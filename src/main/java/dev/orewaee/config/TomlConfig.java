@@ -1,10 +1,13 @@
 package dev.orewaee.config;
 
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import org.tomlj.Toml;
 import org.tomlj.TomlParseResult;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
+import dev.orewaee.Main;
 
 public class TomlConfig {
     private static final Path path = Path.of("plugins/DiscordAuth/config.toml");
@@ -17,8 +20,15 @@ public class TomlConfig {
             if (!Files.exists(directories))
                 Files.createDirectories(directories);
 
-            if (!Files.exists(path))
-                Files.createFile(path);
+            if (!Files.exists(path)) {
+                InputStream inputStream = Main.class.getResourceAsStream("/config.toml");
+
+                if (inputStream == null) return;
+
+                Files.copy(inputStream, path);
+
+                inputStream.close();
+            }
 
             toml = Toml.parse(path);
         } catch (Exception exception) {

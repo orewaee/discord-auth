@@ -20,6 +20,7 @@ import com.velocitypowered.api.proxy.server.ServerInfo;
 
 import dev.orewaee.account.AccountManager;
 import dev.orewaee.bot.Bot;
+import dev.orewaee.commands.ReloadCommand;
 import dev.orewaee.events.EventsListener;
 import dev.orewaee.commands.AccountCommand;
 import dev.orewaee.commands.TestCommand;
@@ -76,6 +77,11 @@ public class Main {
     }
 
     private void registerCommands(CommandManager commandManager) {
+        CommandMeta reloadCommandMeta = commandManager.metaBuilder("discordauth")
+            .aliases("da")
+            .plugin(this)
+            .build();
+
         CommandMeta testCommandMeta = commandManager.metaBuilder("test")
             .plugin(this)
             .build();
@@ -84,6 +90,7 @@ public class Main {
             .plugin(this)
             .build();
 
+        commandManager.register(reloadCommandMeta, new ReloadCommand());
         commandManager.register(testCommandMeta, new TestCommand());
         commandManager.register(accoundCommandMeta, new AccountCommand());
     }
