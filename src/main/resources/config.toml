@@ -1,0 +1,8 @@
+accountsFileName = "plugins/DiscordAuth/accounts.json"
+
+lobbyServer = "lobby"
+
+sessionExpirationTime = 60
+keyExpirationTime = 60
+
+botToken = ""

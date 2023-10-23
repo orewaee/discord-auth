@@ -1,0 +1,9 @@
+{
+    "id": "discordauth",
+    "name": "DiscordAuth",
+    "version": "1.20.1",
+    "description": "",
+    "authors": ["orewaee"],
+    "dependencies": [],
+    "main":"dev.orewaee.Main"
+}
