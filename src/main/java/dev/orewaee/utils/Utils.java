@@ -1,12 +1,14 @@
 package dev.orewaee.utils;
 
 import com.velocitypowered.api.proxy.Player;
+import dev.orewaee.config.TomlConfig;
 import dev.orewaee.key.Key;
 import dev.orewaee.key.KeyManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import java.util.Random;
 
@@ -36,19 +38,10 @@ public class Utils {
 
         Key key = new Key(name);
 
-        player.sendMessage(
-            Component.text("Оптправьте ключ ")
-                .append(
-                    Component.text(key.getKey())
-                        .hoverEvent(Component.text("Скопировать"))
-                        .clickEvent(ClickEvent.copyToClipboard(key.getKey()))
-                        .decorate(TextDecoration.ITALIC)
-                        .color(TextColor.color(0x16D886))
-                )
-                .append(
-                    Component.text(" боту Clown#1672")
-                )
-        );
+        String text = TomlConfig.getSendKeyMessage().replace("%key%", key.getKey());
+        Component message = MiniMessage.miniMessage().deserialize(text);
+
+        player.sendMessage(message);
 
         KeyManager.addKey(key);
     }

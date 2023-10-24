@@ -56,4 +56,20 @@ public class TomlConfig {
     public static String getBotToken() {
         return toml.getString("bot_token");
     }
+
+    public static String getAuthFirstMessage() {
+        return toml.getString("auth_first_message");
+    }
+
+    public static String getMissingAccountMessage() {
+        return toml.getString("missing_account_message");
+    }
+
+    public static String getSendKeyMessage() {
+        return toml.getString("send_key_message");
+    }
+
+    public static String getSessionRestoredMessage() {
+        return toml.getString("session_restored_message");
+    }
 }

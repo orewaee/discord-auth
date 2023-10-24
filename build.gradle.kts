@@ -17,6 +17,7 @@ dependencies {
     implementation("net.dv8tion:JDA:5.0.0-beta.13")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.tomlj:tomlj:1.1.0")
+    implementation("net.kyori:adventure-text-minimessage:4.14.0")
 }
 
 tasks {

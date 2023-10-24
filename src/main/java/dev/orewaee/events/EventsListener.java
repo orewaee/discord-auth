@@ -13,20 +13,20 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import dev.orewaee.account.Account;
 import dev.orewaee.account.AccountManager;
+import dev.orewaee.config.TomlConfig;
 import dev.orewaee.session.Session;
 import dev.orewaee.session.SessionManager;
 import dev.orewaee.utils.AuthManager;
 import dev.orewaee.utils.ServerManager;
 import dev.orewaee.utils.Utils;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class EventsListener {
     @Subscribe
     public void onServerPreConnect(ServerPreConnectEvent event) {
         System.out.println("ServerPreConnectEvent");
 
-        // Отсеивание игроков, у которых нет аккаунта
         Player player = event.getPlayer();
         String name = player.getUsername();
 
@@ -38,7 +38,10 @@ public class EventsListener {
 
         if (!AuthManager.isLogged(name) && !originalServer.equals(ServerManager.getLobby())) {
             event.setResult(ServerResult.denied());
-            player.sendMessage(Component.text("Сначала пройдите авторизацию").color(TextColor.color(0xF8554B)));
+
+            Component message = MiniMessage.miniMessage().deserialize(TomlConfig.getAuthFirstMessage());
+
+            player.sendMessage(message);
         }
     }
 
@@ -84,7 +87,7 @@ public class EventsListener {
         Account account = AccountManager.getAccountByName(name);
 
         if (account == null) {
-            Component component = Component.text("Аккаунт отсутствует!");
+            Component component = MiniMessage.miniMessage().deserialize(TomlConfig.getMissingAccountMessage());
             ComponentResult result = ComponentResult.denied(component);
 
             event.setResult(result);
@@ -99,7 +102,11 @@ public class EventsListener {
 
             if (ip.equals(session.getIp())) {
                 AuthManager.addLogged(name);
-                player.sendMessage(Component.text("Сессия восстановлена").color(TextColor.color(0x16D886)));
+
+                Component message = MiniMessage.miniMessage().deserialize(TomlConfig.getSessionRestoredMessage());
+
+                player.sendMessage(message);
+
                 return;
             }
 

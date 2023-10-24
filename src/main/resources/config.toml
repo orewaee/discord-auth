@@ -10,3 +10,15 @@ session_expiration_time = 60
 
 # Discord bot token
 bot_token = ""
+
+# Auth first message
+auth_first_message = "<#F8554B>Сначала пройдите авторизацию"
+
+# Missing account message
+missing_account_message = "Аккаунт отсутствует!"
+
+# Send key message
+send_key_message = "Оптправьте ключ <click:copy_to_clipboard:%key%><hover:show_text:'Скопировать'>%key%</hover></click> боту Clown#1672"
+
+# Session restored message
+session_restored_message = "<#16D886>Сессия восстановлена"
