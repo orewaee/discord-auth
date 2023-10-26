@@ -12,13 +12,16 @@ session_expiration_time = 60
 bot_token = ""
 
 # Auth first message
-auth_first_message = "<#F8554B>Сначала пройдите авторизацию"
+auth_first_message = "<#F8554B>Please login first"
 
 # Missing account message
-missing_account_message = "Аккаунт отсутствует!"
+missing_account_message = "Account missing!"
 
-# Send key message
-send_key_message = "Оптправьте ключ <click:copy_to_clipboard:%key%><hover:show_text:'Скопировать'>%key%</hover></click> боту Clown#1672"
+# Send a key message, where %key% is the key itself
+send_key_message = "Send key <#16D886><click:copy_to_clipboard:%key%><hover:show_text:'Copy'>%key%</hover></click><reset> to Clown#1672 bot"
 
 # Session restored message
-session_restored_message = "<#16D886>Сессия восстановлена"
+session_restored_message = "<#16D886>Session restored"
+
+# Successful auth message
+successful_auth_message = "<#16D886>Successful auth"

@@ -72,4 +72,8 @@ public class TomlConfig {
     public static String getSessionRestoredMessage() {
         return toml.getString("session_restored_message");
     }
+
+    public static String getSuccessfulAuthMessage() {
+        return toml.getString("successful_auth_message");
+    }
 }
