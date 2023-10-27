@@ -25,3 +25,12 @@ session_restored_message = "<#16D886>Session restored"
 
 # Successful auth message
 successful_auth_message = "<#16D886>Successful auth"
+
+# Successful auth discord message
+successful_auth_discord_message = "You are successfully logged in :white_check_mark:"
+
+# Invalid key message
+invalid_key_message = "Invalid key"
+
+# Key not found
+key_not_found = "Key not found"

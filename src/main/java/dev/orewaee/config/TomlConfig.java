@@ -76,4 +76,16 @@ public class TomlConfig {
     public static String getSuccessfulAuthMessage() {
         return toml.getString("successful_auth_message");
     }
+
+    public static String getSuccessfulAuthDiscordMessage() {
+        return toml.getString("successful_auth_discord_message");
+    }
+
+    public static String getInvalidKeyMessage() {
+        return toml.getString("invalid_key_message");
+    }
+
+    public static String getKeyNotFoundMessage() {
+        return toml.getString("key_not_found");
+    }
 }

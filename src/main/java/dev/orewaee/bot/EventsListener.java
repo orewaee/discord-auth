@@ -1,6 +1,17 @@
 package dev.orewaee.bot;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.velocitypowered.api.proxy.Player;
+
+import net.kyori.adventure.sound.Sound;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+
+import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
 import dev.orewaee.account.Account;
 import dev.orewaee.account.AccountManager;
 import dev.orewaee.config.TomlConfig;
@@ -8,15 +19,6 @@ import dev.orewaee.key.Key;
 import dev.orewaee.key.KeyManager;
 import dev.orewaee.utils.AuthManager;
 import dev.orewaee.utils.ServerManager;
-import net.dv8tion.jda.api.entities.channel.ChannelType;
-import net.kyori.adventure.sound.Sound;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.jetbrains.annotations.NotNull;
-
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class EventsListener extends ListenerAdapter {
     @Override
@@ -39,26 +41,26 @@ public class EventsListener extends ListenerAdapter {
         Key key = KeyManager.getKeyByName(name);
 
         if (key == null) {
-            event.getMessage().reply("Ключ не найден").queue();
+            event.getMessage().reply(TomlConfig.getKeyNotFoundMessage()).queue();
             return;
         }
 
         if (!key.getKey().equals(messageContent)) {
-            event.getMessage().reply("Неверный ключ").queue();
+            event.getMessage().reply(TomlConfig.getInvalidKeyMessage()).queue();
             return;
         }
 
         AuthManager.addLogged(name);
         KeyManager.removeKeyByName(name);
 
-        event.getMessage().reply("Вы успешно авторизованы :white_check_mark:").queue();
+        event.getMessage().reply(TomlConfig.getSuccessfulAuthDiscordMessage()).queue();
 
         Player player = ServerManager.getProxy().getPlayer(name).orElse(null);
 
         if (player == null) return;
 
         Component message = MiniMessage.miniMessage().deserialize(TomlConfig.getSuccessfulAuthMessage());
-        player.playSound(Sound.);
+        // player.playSound();
         player.sendMessage(message);
     }
 }
