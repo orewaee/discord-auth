@@ -11,6 +11,9 @@ session_expiration_time = 60
 # Discord bot token
 bot_token = ""
 
+# Discord admin
+discord_admin = ""
+
 # Auth first message
 auth_first_message = "<#F8554B>Please login first"
 

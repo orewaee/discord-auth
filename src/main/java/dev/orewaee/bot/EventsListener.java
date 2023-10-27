@@ -60,7 +60,6 @@ public class EventsListener extends ListenerAdapter {
         if (player == null) return;
 
         Component message = MiniMessage.miniMessage().deserialize(TomlConfig.getSuccessfulAuthMessage());
-        // player.playSound();
         player.sendMessage(message);
     }
 }

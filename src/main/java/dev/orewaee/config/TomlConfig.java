@@ -3,6 +3,7 @@ package dev.orewaee.config;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import org.tomlj.Toml;
 import org.tomlj.TomlParseResult;
@@ -87,5 +88,9 @@ public class TomlConfig {
 
     public static String getKeyNotFoundMessage() {
         return toml.getString("key_not_found");
+    }
+
+    public static String getDiscordAdmin() {
+        return toml.getString("discord_admin");
     }
 }
