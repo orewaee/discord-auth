@@ -23,11 +23,11 @@ The plugin is currently under development, therefore some commands may disappear
 
 Please report any incorrect commands in [`issues`](https://github.com/orewaee/DiscordAuth/issues).
 
-##### Discord
+#### Discord
 - `/add <mention> <name>` - adds a new account.
 - `/remove <mention> <name>` - removes an existing account.
 
-##### Minecraft
+#### Minecraft
 - `/da reload` - reloads the plugin config.
 - `/account add <discord id> <name>` - adds a new account.
 - `/account remove <discord id> <name>` - removes an existing account.
@@ -35,5 +35,7 @@ Please report any incorrect commands in [`issues`](https://github.com/orewaee/Di
 
 ### Gallery
 ![](pictures/key.png)
+
 ![](pictures/minecraft_success.png)
+
 ![](pictures/discord_success.png)
