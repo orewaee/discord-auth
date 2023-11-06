@@ -26,8 +26,9 @@ import dev.orewaee.commands.AccountCommand;
 import dev.orewaee.commands.TestCommand;
 import dev.orewaee.utils.ServerManager;
 import dev.orewaee.config.TomlConfig;
+import dev.orewaee.version.Updater;
 
-@Plugin(id = "discordauth", name = "DiscordAuth", version = "0.2.0", authors = {"orewaee"})
+@Plugin(id = "discordauth", name = "DiscordAuth", version = Constants.VERSION, authors = {"orewaee"})
 public class Main {
     private final ProxyServer proxy;
     private final Logger logger;
@@ -55,6 +56,8 @@ public class Main {
         }
 
         ServerManager.loadServers(proxy, lobby, servers);
+
+        Updater.checkForUpdates();
 
         logger.info("Plugin launched!");
     }

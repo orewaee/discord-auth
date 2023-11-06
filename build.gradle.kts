@@ -18,6 +18,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.tomlj:tomlj:1.1.0")
     implementation("net.kyori:adventure-text-minimessage:4.14.0")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
 }
 
 tasks {
