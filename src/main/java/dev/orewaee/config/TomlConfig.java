@@ -3,7 +3,6 @@ package dev.orewaee.config;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 import org.tomlj.Toml;
 import org.tomlj.TomlParseResult;

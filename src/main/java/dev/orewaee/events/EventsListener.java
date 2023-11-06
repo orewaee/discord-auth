@@ -30,7 +30,7 @@ public class EventsListener {
         Player player = event.getPlayer();
         String name = player.getUsername();
 
-        boolean accountExists = AccountManager.accountExistsByName(name);
+        boolean accountExists = AccountManager.containsAccountByName(name);
 
         if (!accountExists) event.setResult(ServerResult.denied());
 
@@ -67,9 +67,13 @@ public class EventsListener {
         String name = event.getUsername();
         String ip = event.getConnection().getRemoteAddress().getHostString();
 
+        if (!AccountManager.containsAccountByName(name)) return;
+
+        Account account = AccountManager.getAccountByName(name);
+
         System.out.printf("ip = %s\n", ip);
 
-        boolean sessionExists = SessionManager.sessionExistsByName(name);
+        boolean sessionExists = SessionManager.containsSession(account);
 
         if (sessionExists) {
 
@@ -95,12 +99,14 @@ public class EventsListener {
             return;
         }
 
-        Session session = SessionManager.getSessionByName(name);
+        Session session = SessionManager.getSessionByAccount(account);
 
         if (session != null) {
-            SessionManager.removeSession(session);
 
-            if (ip.equals(session.getIp())) {
+
+            SessionManager.removeSession(account);
+
+            if (ip.equals(session.ip())) {
                 AuthManager.addLogged(name);
 
                 Component message = MiniMessage.miniMessage().deserialize(TomlConfig.getSessionRestoredMessage());
@@ -131,13 +137,17 @@ public class EventsListener {
         String name = player.getUsername();
         String ip = player.getRemoteAddress().getHostString();
 
-        if (AuthManager.isLogged(name)) {
-            Session session = SessionManager.getSessionByName(name);
+        if (!AccountManager.containsAccountByName(name)) return;
 
-            if (session != null) SessionManager.removeSession(session);
+        Account account = AccountManager.getAccountByName(name);
+
+        if (AuthManager.isLogged(name)) {
+            Session session = SessionManager.getSessionByAccount(account);
+
+            if (session != null) SessionManager.removeSession(account);
 
             AuthManager.removeLogged(name);
-            SessionManager.addSession(name, ip);
+            SessionManager.addSession(account, new Session(ip));
         }
 
         AuthManager.removeLogged(name);

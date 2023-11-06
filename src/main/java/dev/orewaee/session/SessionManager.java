@@ -1,76 +1,60 @@
 package dev.orewaee.session;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.TimerTask;
+
+import dev.orewaee.account.Account;
+import dev.orewaee.config.TomlConfig;
+import org.jetbrains.annotations.Nullable;
 
 public class SessionManager {
-    private static final Set<Session> sessions = new HashSet<>();
+    private static final Map<Account, Session> sessions = new HashMap<>();
 
-    public static void addSession(String name, String ip) {
-        if (sessionExists(name, ip)) return;
-
-        sessions.add(new Session(name, ip));
-    }
-
-    public static void removeSession(Session session) {
-        sessions.remove(session);
-    }
-
-    public static void removeSession(String name, String ip) {
-        if (!sessionExists(name, ip)) return;
-
-        for (Session session : sessions) {
-            boolean nameEqual = name.equals(session.getName());
-            boolean ipEqual = ip.equals(session.getIp());
-
-            if (nameEqual && ipEqual) {
-                session.stopTimer();
-                sessions.remove(session);
-                break;
+    public static void addSession(Account account, Session session) {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                SessionManager.removeSession(account);
+                System.out.println("session removed");
             }
-        }
+        };
+
+        session.timer().schedule(task, 1000 * TomlConfig.getSessionExpirationTime());
+
+        sessions.put(account, session);
     }
 
-    public static boolean sessionExists(String name, String ip) {
-        boolean sessionExistsByName = sessionExistsByName(name);
-        boolean sessionExistsByIp = sessionExistsByName(ip);
+    public static void removeSession(Account account) {
+        Session session = sessions.get(account);
 
-        return  sessionExistsByName || sessionExistsByIp;
+        if (session == null) return;
+
+        session.timer().cancel();
+
+        sessions.remove(account);
     }
 
-    public static boolean sessionExistsByName(String name) {
-        for (Session session : sessions)
-            if (name.equals(session.getName()))
+    public static boolean containsSession(Account account) {
+        return sessions.containsKey(account);
+    }
+
+    @Nullable
+    public static Session getSessionByAccount(Account account) {
+        if (!containsSession(account)) return null;
+
+        return sessions.get(account);
+    }
+
+    public static boolean containsSessionByIp(String ip) {
+        for (Account account : sessions.keySet())
+            if (ip.equals(sessions.get(account).ip()))
                 return true;
 
         return false;
     }
 
-    public static boolean sessionExistsByIp(String ip) {
-        for (Session session : sessions)
-            if (ip.equals(session.getIp()))
-                return true;
-
-        return false;
-    }
-
-    public static Set<Session> getSessions() {
+    public static Map<Account, Session> getSessions() {
         return sessions;
-    }
-
-    public static Session getSessionByName(String name) {
-        for (Session session : sessions)
-            if (name.equals(session.getName()))
-                return session;
-
-        return null;
-    }
-
-    public static Session getSessionByIp(String ip) {
-        for (Session session : sessions)
-            if (ip.equals(session.getIp()))
-                return session;
-
-        return null;
     }
 }

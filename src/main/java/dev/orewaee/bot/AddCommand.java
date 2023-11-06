@@ -29,7 +29,7 @@ public class AddCommand extends ListenerAdapter {
 
         String name = nameMapping.getAsString();
 
-        boolean accountExists = AccountManager.accountExists(name, discord);
+        boolean accountExists = AccountManager.containsAccount(name, discord);
 
         if (accountExists) {
             event.reply("Account already exists").queue();

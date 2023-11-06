@@ -30,12 +30,12 @@ public class AccountCommand implements SimpleCommand {
                 String name = arguments[1];
                 String discord = arguments[2];
 
-                if (AccountManager.accountExistsByName(name)) {
+                if (AccountManager.containsAccountByName(name)) {
                     source.sendMessage(Component.text("An account with the same name already exists"));
                     return;
                 }
 
-                if (AccountManager.accountExistsByDiscord(discord)) {
+                if (AccountManager.containsAccountByDiscord(discord)) {
                     source.sendMessage(Component.text("An account with the same discord already exists"));
                     return;
                 }

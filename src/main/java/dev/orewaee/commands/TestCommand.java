@@ -15,6 +15,7 @@ import dev.orewaee.utils.ServerManager;
 import net.kyori.adventure.text.Component;
 
 import java.util.List;
+import java.util.Map;
 
 public class TestCommand implements RawCommand {
     @Override
@@ -30,7 +31,7 @@ public class TestCommand implements RawCommand {
         source.sendMessage(Component.text("ACCOUNTS:"));
 
         for (Account account : AccountManager.getAccounts()) {
-            String content = account.getName() + " / " + account.getDiscord();
+            String content = account.name() + " / " + account.discord();
 
             source.sendMessage(Component.text(content));
         }
@@ -49,8 +50,12 @@ public class TestCommand implements RawCommand {
         source.sendMessage(Component.empty());
         source.sendMessage(Component.text("KEYS:"));
 
-        for (Key key : KeyManager.getKeys()) {
-            Component content = Component.text(key.getName() + " / " + key.getKey());
+        Map<Account, Key> keys = KeyManager.getKeys();
+
+        for (Account account : keys.keySet()) {
+            Key key = keys.get(account);
+
+            Component content = Component.text(account.name() + "#" + account.discord() + " / " + key.code());
 
             source.sendMessage(content);
         }
@@ -67,10 +72,19 @@ public class TestCommand implements RawCommand {
         source.sendMessage(Component.empty());
         source.sendMessage(Component.text("SESSIONS:"));
 
-        for (Session session : SessionManager.getSessions()) {
-            Component content = Component.text(session.getName() + " / " + session.getIp());
+        Map<Account, Session> sessions = SessionManager.getSessions();
+
+        for (Account account : sessions.keySet()) {
+            Session session = sessions.get(account);
+
+            Component content = Component.text(account.name() + "#" + account.discord() + " / " + session.ip());
 
             source.sendMessage(content);
         }
+    }
+
+    @Override
+    public boolean hasPermission(Invocation invocation) {
+        return invocation.source().hasPermission("discordauth.test");
     }
 }
