@@ -10,63 +10,58 @@ import java.util.Set;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.jetbrains.annotations.Nullable;
+
 import dev.orewaee.utils.FileHelper;
 import dev.orewaee.config.TomlConfig;
-import org.jetbrains.annotations.Nullable;
 
 public class AccountManager {
     private static Set<Account> accounts = new HashSet<>();
 
     public static void addAccount(String name, String discord) {
-        if (accountExists(name, discord)) return;
+        Account account = new Account(name, discord);
 
-        accounts.add(new Account(name, discord));
+        if (containsAccount(account)) return;
+
+        accounts.add(account);
 
         FileHelper.update();
     }
 
     public static void removeAccount(String name, String discord) {
-        if (!accountExists(name, discord)) return;
+        Account account = new Account(name, discord);
 
-        for (Account account : accounts) {
-            boolean namesEqual = name.equals(account.getName());
-            boolean discordsEqual = discord.equals(account.getDiscord());
+        if (!containsAccount(account)) return;
 
-            if (namesEqual && discordsEqual) {
-                accounts.remove(account);
+        accounts.remove(account);
 
-                FileHelper.update();
-
-                break;
-            }
-        }
+        FileHelper.update();
     }
 
-    public static boolean accountExists(String name, String discord) {
-        boolean accountExistsByName = accountExistsByName(name);
-        boolean accountExistsByDiscord = accountExistsByDiscord(discord);
-
-        return accountExistsByName || accountExistsByDiscord;
+    public static boolean containsAccount(Account account) {
+        return accounts.contains(account);
     }
 
-    public static boolean accountExistsByName(String name) {
+    public static boolean containsAccount(String name, String discord) {
+        Account account = new Account(name, discord);
+
+        return accounts.contains(account);
+    }
+
+    public static boolean containsAccountByName(String name) {
         for (Account account : accounts)
-            if (name.equals(account.getName()))
+            if (name.equals(account.name()))
                 return true;
 
         return false;
     }
 
-    public static boolean accountExistsByDiscord(String discord) {
+    public static boolean containsAccountByDiscord(String discord) {
         for (Account account : accounts)
-            if (discord.equals(account.getDiscord()))
+            if (discord.equals(account.discord()))
                 return true;
 
         return false;
-    }
-
-    private static void setAccounts(Set<Account> newAccounts) {
-        accounts = newAccounts;
     }
 
     public static void loadAccounts() {
@@ -92,17 +87,19 @@ public class AccountManager {
         }
     }
 
-    public static @Nullable Account getAccountByName(String name) {
+    @Nullable
+    public static Account getAccountByName(String name) {
         for (Account account : accounts)
-            if (name.equals(account.getName()))
+            if (name.equals(account.name()))
                 return account;
 
         return null;
     }
 
-    public static @Nullable Account getAccountByDiscord(String discord) {
+    @Nullable
+    public static Account getAccountByDiscord(String discord) {
         for (Account account : accounts)
-            if (discord.equals(account.getDiscord()))
+            if (discord.equals(account.discord()))
                 return account;
 
         return null;

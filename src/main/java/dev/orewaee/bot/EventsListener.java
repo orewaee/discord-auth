@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 import com.velocitypowered.api.proxy.Player;
 
-import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
@@ -34,24 +33,24 @@ public class EventsListener extends ListenerAdapter {
 
         if (account == null) return;
 
-        String name = account.getName();
+        String name = account.name();
 
         if (AuthManager.isLogged(name)) return;
 
-        Key key = KeyManager.getKeyByName(name);
+        Key key = KeyManager.getKeyByAccount(account);
 
         if (key == null) {
             event.getMessage().reply(TomlConfig.getKeyNotFoundMessage()).queue();
             return;
         }
 
-        if (!key.getKey().equals(messageContent)) {
+        if (!messageContent.equals(key.code())) {
             event.getMessage().reply(TomlConfig.getInvalidKeyMessage()).queue();
             return;
         }
 
         AuthManager.addLogged(name);
-        KeyManager.removeKeyByName(name);
+        KeyManager.removeKeyByAccount(account);
 
         event.getMessage().reply(TomlConfig.getSuccessfulAuthDiscordMessage()).queue();
 
