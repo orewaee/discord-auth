@@ -28,19 +28,22 @@ import dev.orewaee.utils.ServerManager;
 import dev.orewaee.config.TomlConfig;
 import dev.orewaee.version.Updater;
 
-@Plugin(id = "discordauth", name = "DiscordAuth", version = Constants.VERSION, authors = {"orewaee"})
+@Plugin(
+    id = Constants.ID,
+    name = Constants.NAME,
+    version = Constants.VERSION,
+    authors = {"orewaee"}
+)
 public class Main {
     private final ProxyServer proxy;
     private final Logger logger;
-    private final Path dataDirectory;
 
     private final Bot bot;
 
     @Inject
-    public Main(ProxyServer proxy, Logger logger, @DataDirectory Path dataDirectory) {
+    public Main(ProxyServer proxy, Logger logger) {
         this.proxy = proxy;
         this.logger = logger;
-        this.dataDirectory = dataDirectory;
 
         TomlConfig.loadConfig();
 
