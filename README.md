@@ -4,7 +4,7 @@
 
 DiscordAuth is a plugin that allows you to quickly and easily set up Discord auth for the Velocity proxy server.
 
-### Installation
+## Installation
 To set up DiscordAuth, there are several steps you need to follow.
 
 First you need to configure the Velocity proxy server.
@@ -18,14 +18,14 @@ In general, these are all the necessary settings.
 In addition to them, it is possible to customize messages or session expiration time.
 A complete list of all configurable properties is in `config.toml`.
 
-### Commands
+## Commands
 The plugin is currently under development, therefore some commands may disappear.
 
 Please report any incorrect commands in [`issues`](https://github.com/orewaee/DiscordAuth/issues).
 
 #### Discord
-- `/add <mention> <name>` - adds a new account.
-- `/remove <mention> <name>` - removes an existing account.
+- `/add <name> <discord id>` - adds a new account.
+- `/remove <name> <discord id>` - removes an existing account.
 
 #### Minecraft
 - `/da reload` - reloads the plugin config.
@@ -33,9 +33,17 @@ Please report any incorrect commands in [`issues`](https://github.com/orewaee/Di
 - `/account remove <discord id> <name>` - removes an existing account.
 - `/test` is a temporary command needed for debugging.
 
-### Gallery
+## Gallery
 ![](pictures/key.png)
 
 ![](pictures/minecraft_success.png)
 
 ![](pictures/discord_success.png)
+
+![](pictures/discord_add.png)
+
+## TODO
+- [ ] Fix version checking
+- [ ] Fix other managers
+- [ ] Separate config and messages
+- [ ] Rewrite commands to brigadier command
