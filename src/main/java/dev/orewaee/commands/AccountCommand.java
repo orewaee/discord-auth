@@ -1,13 +1,18 @@
 package dev.orewaee.commands;
 
-import com.velocitypowered.api.command.CommandSource;
-import com.velocitypowered.api.command.SimpleCommand;
-import dev.orewaee.account.AccountManager;
-import net.kyori.adventure.text.Component;
-
 import java.util.List;
 
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
+
+import net.kyori.adventure.text.Component;
+
+import dev.orewaee.account.AccountManager;
+import dev.orewaee.account.JsonAccountManager;
+
 public class AccountCommand implements SimpleCommand {
+    private final AccountManager accountManager = JsonAccountManager.getInstance();
+
     @Override
     public List<String> suggest(Invocation invocation) {
         return SimpleCommand.super.suggest(invocation);
@@ -28,28 +33,28 @@ public class AccountCommand implements SimpleCommand {
         switch (action) {
             case "add" -> {
                 String name = arguments[1];
-                String discord = arguments[2];
+                String discordId = arguments[2];
 
-                if (AccountManager.containsAccountByName(name)) {
+                if (accountManager.containsAccountByName(name)) {
                     source.sendMessage(Component.text("An account with the same name already exists"));
                     return;
                 }
 
-                if (AccountManager.containsAccountByDiscord(discord)) {
-                    source.sendMessage(Component.text("An account with the same discord already exists"));
+                if (accountManager.containsAccountByDiscordId(discordId)) {
+                    source.sendMessage(Component.text("An account with the same discord id already exists"));
                     return;
                 }
 
-                AccountManager.addAccount(name, discord);
+                accountManager.addAccount(name, discordId);
 
                 source.sendMessage(Component.text("Account added successfully"));
             }
 
             case "remove" -> {
                 String name = arguments[1];
-                String discord = arguments[2];
+                String discordId = arguments[2];
 
-                AccountManager.removeAccount(name, discord);
+                accountManager.removeAccount(name, discordId);
 
                 source.sendMessage(Component.text("Account removed successfully"));
             }

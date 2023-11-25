@@ -1,5 +1,8 @@
 package dev.orewaee.bot;
 
+import dev.orewaee.account.AccountManager;
+import dev.orewaee.account.JsonAccountManager;
+import dev.orewaee.key.InMemoryKeyManager;
 import org.jetbrains.annotations.NotNull;
 
 import com.velocitypowered.api.proxy.Player;
@@ -12,32 +15,34 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import dev.orewaee.account.Account;
-import dev.orewaee.account.AccountManager;
 import dev.orewaee.config.TomlConfig;
 import dev.orewaee.key.Key;
 import dev.orewaee.key.KeyManager;
-import dev.orewaee.utils.AuthManager;
-import dev.orewaee.utils.ServerManager;
+import dev.orewaee.managers.AuthManager;
+import dev.orewaee.managers.ServerManager;
 
 public class EventsListener extends ListenerAdapter {
+    private final AccountManager accountManager = JsonAccountManager.getInstance();
+    private final KeyManager keyManager = InMemoryKeyManager.getInstance();
+
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         if (!event.isFromType(ChannelType.PRIVATE)) return;
 
         if (event.getAuthor().isBot()) return;
 
-        String discord = event.getAuthor().getId();
+        String discordId = event.getAuthor().getId();
         String messageContent = event.getMessage().getContentRaw();
 
-        Account account = AccountManager.getAccountByDiscord(discord);
+        Account account = accountManager.getAccountByDiscordId(discordId);
 
         if (account == null) return;
 
         String name = account.name();
 
-        if (AuthManager.isLogged(name)) return;
+        if (AuthManager.isLogged(account)) return;
 
-        Key key = KeyManager.getKeyByAccount(account);
+        Key key = keyManager.getKeyByAccount(account);
 
         if (key == null) {
             event.getMessage().reply(TomlConfig.getKeyNotFoundMessage()).queue();
@@ -49,8 +54,8 @@ public class EventsListener extends ListenerAdapter {
             return;
         }
 
-        AuthManager.addLogged(name);
-        KeyManager.removeKeyByAccount(account);
+        AuthManager.addLogged(account);
+        keyManager.removeKey(account);
 
         event.getMessage().reply(TomlConfig.getSuccessfulAuthDiscordMessage()).queue();
 

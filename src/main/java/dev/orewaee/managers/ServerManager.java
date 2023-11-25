@@ -1,4 +1,4 @@
-package dev.orewaee.utils;
+package dev.orewaee.managers;
 
 import java.util.List;
 

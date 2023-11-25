@@ -1,6 +1,10 @@
 package dev.orewaee.bot;
 
+import dev.orewaee.account.AccountManager;
+import dev.orewaee.account.JsonAccountManager;
 import dev.orewaee.config.TomlConfig;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.jetbrains.annotations.NotNull;
 
 import net.dv8tion.jda.api.entities.IMentionable;
@@ -8,36 +12,44 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
-import dev.orewaee.account.AccountManager;
-
 public class RemoveCommand extends ListenerAdapter {
+    private final AccountManager accountManager = JsonAccountManager.getInstance();
+
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        String command = event.getName();
-
         if (!event.getUser().getId().equals(TomlConfig.getDiscordAdmin())) return;
-        if (!command.equals("remove")) return;
 
-        OptionMapping discordMapping = event.getOption("discord");
-        if (discordMapping == null) return;
-
-        IMentionable mentionable = discordMapping.getAsMentionable();
-        String discord = mentionable.getId();
+        if (!event.getName().equals("remove")) return;
 
         OptionMapping nameMapping = event.getOption("name");
         if (nameMapping == null) return;
 
         String name = nameMapping.getAsString();
 
-        boolean accountExists = AccountManager.containsAccount(name, discord);
+        OptionMapping discordIdMapping = event.getOption("discord_id");
+        if (discordIdMapping == null) return;
 
-        if (!accountExists) {
-            event.reply("Account no longer exists").queue();
+        String discordId = discordIdMapping.getAsString();
+
+        if (!accountManager.containsAccount(name, discordId)) {
+            event.reply("There is no account with that name or discord id").queue();
             return;
         }
 
-        AccountManager.removeAccount(name, discord);
+        accountManager.removeAccount(name, discordId);
 
-        event.reply("Account removed").queue();
+        MessageEmbed embed = new EmbedBuilder()
+            .setColor(0xdd2e44)
+            .setAuthor(name, null, "https://mc-heads.net/avatar/" + name)
+            .setTitle(":red_square: Account removed")
+            .setDescription(
+                String.format(
+                    "Account removed successfully. To add it, use the command:\n```/add %s %s```",
+                    name, discordId
+                )
+            )
+            .build();
+
+        event.replyEmbeds(embed).queue();
     }
 }

@@ -4,6 +4,8 @@ import com.velocitypowered.api.proxy.Player;
 
 import dev.orewaee.account.Account;
 import dev.orewaee.account.AccountManager;
+import dev.orewaee.account.JsonAccountManager;
+import dev.orewaee.key.InMemoryKeyManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
@@ -13,11 +15,12 @@ import dev.orewaee.key.KeyManager;
 
 public class Utils {
     public static void sendAuthInstructions(Player player) {
+        AccountManager accountManager = JsonAccountManager.getInstance();
+        KeyManager keyManager = InMemoryKeyManager.getInstance();
+
         String name = player.getUsername();
 
-        if (!AccountManager.containsAccountByName(name)) return;
-
-        Account account = AccountManager.getAccountByName(name);
+        Account account = accountManager.getAccountByName(name);
 
         Key key = new Key();
 
@@ -26,6 +29,6 @@ public class Utils {
 
         player.sendMessage(message);
 
-        KeyManager.addKey(account, key);
+        keyManager.addKey(account, key);
     }
 }

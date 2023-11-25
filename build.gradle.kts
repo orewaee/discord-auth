@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "dev.orewaee"
-version = "0.2.1"
+version = "0.3.0"
 
 repositories {
     mavenCentral()
@@ -22,11 +22,11 @@ dependencies {
 }
 
 tasks {
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
+
     shadowJar {
         archiveFileName.set("DiscordAuth-$version.jar")
     }
-}
-
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
 }

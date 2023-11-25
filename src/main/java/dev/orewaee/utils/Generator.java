@@ -2,7 +2,7 @@ package dev.orewaee.utils;
 
 import java.util.Random;
 
-import dev.orewaee.key.KeyManager;
+import dev.orewaee.key.InMemoryKeyManager;
 
 public class Generator {
     private static int generateRandomInt(int minimum, int maximum) {
@@ -20,7 +20,7 @@ public class Generator {
 
         String code = first + second + third;
 
-        if (KeyManager.containsKeyByCode(code)) generateCode();
+        if (InMemoryKeyManager.getInstance().containsKeyByCode(code)) generateCode();
 
         return code;
     }

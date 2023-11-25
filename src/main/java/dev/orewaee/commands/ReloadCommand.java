@@ -1,11 +1,13 @@
 package dev.orewaee.commands;
 
+import java.util.List;
+
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
-import dev.orewaee.config.TomlConfig;
+
 import net.kyori.adventure.text.Component;
 
-import java.util.List;
+import dev.orewaee.config.TomlConfig;
 
 public class ReloadCommand implements SimpleCommand {
     @Override

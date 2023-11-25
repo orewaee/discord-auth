@@ -1,43 +1,60 @@
 package dev.orewaee.bot;
 
-import dev.orewaee.config.TomlConfig;
 import org.jetbrains.annotations.NotNull;
 
-import net.dv8tion.jda.api.entities.IMentionable;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
 import dev.orewaee.account.AccountManager;
+import dev.orewaee.account.JsonAccountManager;
+import dev.orewaee.config.TomlConfig;
 
 public class AddCommand extends ListenerAdapter {
+    private final AccountManager accountManager = JsonAccountManager.getInstance();
+
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        String command = event.getName();
-
         if (!event.getUser().getId().equals(TomlConfig.getDiscordAdmin())) return;
-        if (!command.equals("add")) return;
 
-        OptionMapping discordMapping = event.getOption("discord");
-        if (discordMapping == null) return;
-
-        IMentionable mentionable = discordMapping.getAsMentionable();
-        String discord = mentionable.getId();
+        if (!event.getName().equals("add")) return;
 
         OptionMapping nameMapping = event.getOption("name");
         if (nameMapping == null) return;
 
         String name = nameMapping.getAsString();
 
-        boolean accountExists = AccountManager.containsAccount(name, discord);
+        OptionMapping discordIdMapping = event.getOption("discord_id");
+        if (discordIdMapping == null) return;
 
-        if (accountExists) {
-            event.reply("Account already exists").queue();
+        String discordId = discordIdMapping.getAsString();
+
+        if (accountManager.containsAccountByName(name)) {
+            event.reply("An account with the same name already exists").queue();
             return;
         }
 
-        AccountManager.addAccount(name, discord);
+        if (accountManager.containsAccountByDiscordId(discordId)) {
+            event.reply("An account with the same discord id already exists").queue();
+            return;
+        }
 
-        event.reply("Account added").queue();
+        accountManager.addAccount(name, discordId);
+
+        MessageEmbed embed = new EmbedBuilder()
+            .setColor(0x78b159)
+            .setAuthor(name, null, "https://mc-heads.net/avatar/" + name)
+            .setTitle(":green_square: Account added")
+            .setDescription(
+                String.format(
+                    "Account added successfully. To remove it, use the command:\n```/remove %s %s```",
+                    name, discordId
+                )
+            )
+            .build();
+
+        event.replyEmbeds(embed).queue();
     }
 }

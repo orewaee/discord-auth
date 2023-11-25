@@ -5,7 +5,7 @@ import java.io.Writer;
 
 import com.google.gson.Gson;
 
-import dev.orewaee.account.AccountManager;
+import dev.orewaee.account.JsonAccountManager;
 import dev.orewaee.config.TomlConfig;
 
 public class FileHelper {
@@ -16,7 +16,7 @@ public class FileHelper {
 
             Gson gson = new Gson();
 
-            gson.toJson(AccountManager.getAccounts(), writer);
+            gson.toJson(JsonAccountManager.getInstance().getAccounts(), writer);
 
             writer.close();
         } catch (Exception exception) {

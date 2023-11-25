@@ -20,28 +20,28 @@ public class Bot {
         jda.updateCommands().addCommands(
             Commands.slash("add", "Add account")
                 .addOption(
-                    OptionType.MENTIONABLE,
-                    "discord",
-                    "Account discord",
+                    OptionType.STRING,
+                    "name",
+                    "Account name",
                     true
                 )
                 .addOption(
                     OptionType.STRING,
-                    "name",
-                    "Account name",
+                    "discord_id",
+                    "Account discord id",
                     true
                 ),
             Commands.slash("remove", "Remove account")
                 .addOption(
-                    OptionType.MENTIONABLE,
-                    "discord",
-                    "Account discord",
+                    OptionType.STRING,
+                    "name",
+                    "Account name",
                     true
                 )
                 .addOption(
                     OptionType.STRING,
-                    "name",
-                    "Account name",
+                    "discord_id",
+                    "Account discord id",
                     true
                 )
         ).queue();

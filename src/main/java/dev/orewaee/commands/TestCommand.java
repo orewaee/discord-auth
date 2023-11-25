@@ -1,23 +1,32 @@
 package dev.orewaee.commands;
 
+import java.util.List;
+import java.util.Map;
+
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.RawCommand;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
+
+import net.kyori.adventure.text.Component;
+
 import dev.orewaee.account.Account;
 import dev.orewaee.account.AccountManager;
+import dev.orewaee.account.JsonAccountManager;
+import dev.orewaee.key.InMemoryKeyManager;
 import dev.orewaee.key.Key;
 import dev.orewaee.key.KeyManager;
 import dev.orewaee.session.Session;
+import dev.orewaee.session.InMemorySessionManager;
 import dev.orewaee.session.SessionManager;
-import dev.orewaee.utils.AuthManager;
-import dev.orewaee.utils.ServerManager;
-import net.kyori.adventure.text.Component;
-
-import java.util.List;
-import java.util.Map;
+import dev.orewaee.managers.AuthManager;
+import dev.orewaee.managers.ServerManager;
 
 public class TestCommand implements RawCommand {
+    private final AccountManager accountManager = JsonAccountManager.getInstance();
+    private final KeyManager keyManager = InMemoryKeyManager.getInstance();
+    private final SessionManager sessionManager = InMemorySessionManager.getInstance();
+
     @Override
     public List<String> suggest(Invocation invocation) {
         return RawCommand.super.suggest(invocation);
@@ -30,8 +39,8 @@ public class TestCommand implements RawCommand {
         source.sendMessage(Component.empty());
         source.sendMessage(Component.text("ACCOUNTS:"));
 
-        for (Account account : AccountManager.getAccounts()) {
-            String content = account.name() + " / " + account.discord();
+        for (Account account : accountManager.getAccounts()) {
+            String content = account.name() + " / " + account.discordId();
 
             source.sendMessage(Component.text(content));
         }
@@ -50,12 +59,12 @@ public class TestCommand implements RawCommand {
         source.sendMessage(Component.empty());
         source.sendMessage(Component.text("KEYS:"));
 
-        Map<Account, Key> keys = KeyManager.getKeys();
+        Map<Account, Key> keys = keyManager.getKeys();
 
         for (Account account : keys.keySet()) {
             Key key = keys.get(account);
 
-            Component content = Component.text(account.name() + "#" + account.discord() + " / " + key.code());
+            Component content = Component.text(account.name() + "#" + account.discordId() + " / " + key.code());
 
             source.sendMessage(content);
         }
@@ -63,8 +72,8 @@ public class TestCommand implements RawCommand {
         source.sendMessage(Component.empty());
         source.sendMessage(Component.text("LOGGED PLAYERS:"));
 
-        for (String loggedPlayer : AuthManager.getLoggedPlayers()) {
-            Component content = Component.text(loggedPlayer);
+        for (Account loggedAccount : AuthManager.getLoggedAccounts()) {
+            Component content = Component.text(loggedAccount.toString());
 
             source.sendMessage(content);
         }
@@ -72,12 +81,12 @@ public class TestCommand implements RawCommand {
         source.sendMessage(Component.empty());
         source.sendMessage(Component.text("SESSIONS:"));
 
-        Map<Account, Session> sessions = SessionManager.getSessions();
+        Map<Account, Session> sessions = sessionManager.getSessions();
 
         for (Account account : sessions.keySet()) {
             Session session = sessions.get(account);
 
-            Component content = Component.text(account.name() + "#" + account.discord() + " / " + session.ip());
+            Component content = Component.text(account.name() + "#" + account.discordId() + " / " + session.ip());
 
             source.sendMessage(content);
         }
