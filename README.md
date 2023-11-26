@@ -43,7 +43,7 @@ Please report any incorrect commands in [`issues`](https://github.com/orewaee/Di
 ![](pictures/discord_add.png)
 
 ## TODO
-- [ ] Fix version checking
+- [x] Fix version checking
 - [ ] Fix other managers
 - [ ] Separate config and messages
 - [ ] Rewrite commands to brigadier command
