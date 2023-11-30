@@ -1,0 +1,5 @@
+[minecraft]
+missing_account = "Missing account"
+
+[discord]
+missing_account = ":red_square: Missing account"
