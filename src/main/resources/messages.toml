@@ -1,5 +1,24 @@
 [minecraft]
+invalid_command_syntax = "Invalid command syntax"
+
+account_already_exists = "Account already exists"
+account_with_that_name_already_exists = "Account with that name already exists"
+account_with_that_discord_id_already_exists = "Account with that Discord ID already exists"
+
+account_added = "Account successful added"
+account_removed = "Account successful removed"
+
+config_reloaded = "Config successfully reloaded"
+messages_reloaded = "Messages successfully reloaded"
+
+session_restored = "Session successfully restored"
+
 missing_account = "Missing account"
 
+successful_auth = "Successful auth"
+
 [discord]
+account_with_that_name_already_exists = "Account with that name already exists"
+account_with_that_discord_id_already_exists = "Account with that Discord ID already exists"
+
 missing_account = ":red_square: Missing account"

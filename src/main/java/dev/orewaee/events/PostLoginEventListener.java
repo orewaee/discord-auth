@@ -38,7 +38,9 @@ public class PostLoginEventListener {
                 // todo replace AuthManager to new singleton manager
                 AuthManager.addLogged(account);
 
-                Component message = MiniMessage.miniMessage().deserialize(TomlConfig.getSessionRestoredMessage());
+                Component message = MiniMessage.miniMessage().deserialize(
+                    TomlConfig.getSessionRestoredMessage()
+                );
                 player.sendMessage(message);
 
                 return;
