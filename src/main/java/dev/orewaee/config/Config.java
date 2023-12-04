@@ -1,13 +1,13 @@
 package dev.orewaee.config;
 
 public interface Config {
-    String getAccountsFileName();
+    String accountsFileName();
 
-    long getKeyExpirationTime();
-    long getSessionExpirationTime();
+    Long keyExpirationTime();
+    Long sessionExpirationTime();
 
-    String getLobbyServerName();
+    String lobbyServerName();
 
-    String getBotToken();
-    String getAdminDiscordId();
+    String botToken();
+    String adminDiscordId();
 }

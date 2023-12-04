@@ -9,9 +9,13 @@ import net.kyori.adventure.text.Component;
 
 import dev.orewaee.account.AccountManager;
 import dev.orewaee.account.JsonAccountManager;
+import dev.orewaee.config.MinecraftMessages;
+import dev.orewaee.config.TomlMinecraftMessages;
 
 public class AccountCommand implements SimpleCommand {
     private final AccountManager accountManager = JsonAccountManager.getInstance();
+
+    private final MinecraftMessages minecraftMessages = TomlMinecraftMessages.getInstance();
 
     @Override
     public List<String> suggest(Invocation invocation) {
@@ -24,7 +28,10 @@ public class AccountCommand implements SimpleCommand {
         String[] arguments = invocation.arguments();
 
         if (arguments.length != 3) {
-            source.sendMessage(Component.text(":("));
+            source.sendMessage(Component.text(
+                minecraftMessages.invalidCommandSyntax()
+            ));
+
             return;
         }
 
@@ -36,18 +43,26 @@ public class AccountCommand implements SimpleCommand {
                 String discordId = arguments[2];
 
                 if (accountManager.containsAccountByName(name)) {
-                    source.sendMessage(Component.text("An account with the same name already exists"));
+                    source.sendMessage(Component.text(
+                        minecraftMessages.accountWithThatNameAlreadyExists()
+                    ));
+
                     return;
                 }
 
                 if (accountManager.containsAccountByDiscordId(discordId)) {
-                    source.sendMessage(Component.text("An account with the same discord id already exists"));
+                    source.sendMessage(Component.text(
+                        minecraftMessages.accountWithThatDiscordIdAlreadyExists()
+                    ));
+
                     return;
                 }
 
                 accountManager.addAccount(name, discordId);
 
-                source.sendMessage(Component.text("Account added successfully"));
+                source.sendMessage(Component.text(
+                    minecraftMessages.accountAdded()
+                ));
             }
 
             case "remove" -> {
@@ -56,10 +71,14 @@ public class AccountCommand implements SimpleCommand {
 
                 accountManager.removeAccount(name, discordId);
 
-                source.sendMessage(Component.text("Account removed successfully"));
+                source.sendMessage(Component.text(
+                    minecraftMessages.accountRemoved()
+                ));
             }
 
-            default -> source.sendMessage(Component.text("Invalid command syntax"));
+            default -> source.sendMessage(Component.text(
+                minecraftMessages.invalidCommandSyntax()
+            ));
         }
     }
 }

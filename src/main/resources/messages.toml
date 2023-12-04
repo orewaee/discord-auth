@@ -17,8 +17,17 @@ missing_account = "Missing account"
 
 successful_auth = "Successful auth"
 
+send_key = "Send key <#16D886><click:copy_to_clipboard:%key%><hover:show_text:'Copy'>%key%</hover></click><reset> to Clown#1672 bot"
+
+auth_first = "<#F8554B>Please login first"
+
 [discord]
 account_with_that_name_already_exists = "Account with that name already exists"
 account_with_that_discord_id_already_exists = "Account with that Discord ID already exists"
 
 missing_account = ":red_square: Missing account"
+
+invalid_key = "Invalid key"
+key_not_found = "Key not found"
+
+successful_auth = ":green_square: Successful auth"

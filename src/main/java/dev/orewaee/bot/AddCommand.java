@@ -10,14 +10,20 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
 import dev.orewaee.account.AccountManager;
 import dev.orewaee.account.JsonAccountManager;
+import dev.orewaee.config.Config;
 import dev.orewaee.config.TomlConfig;
+import dev.orewaee.config.DiscordMessages;
+import dev.orewaee.config.TomlDiscordMessages;
 
 public class AddCommand extends ListenerAdapter {
     private final AccountManager accountManager = JsonAccountManager.getInstance();
 
+    private final Config config = TomlConfig.getInstance();
+    private final DiscordMessages discordMessages = TomlDiscordMessages.getInstance();
+
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (!event.getUser().getId().equals(TomlConfig.getDiscordAdmin())) return;
+        if (!event.getUser().getId().equals(config.adminDiscordId())) return;
 
         if (!event.getName().equals("add")) return;
 
@@ -32,12 +38,18 @@ public class AddCommand extends ListenerAdapter {
         String discordId = discordIdMapping.getAsString();
 
         if (accountManager.containsAccountByName(name)) {
-            event.reply("An account with the same name already exists").queue();
+            event.reply(
+                discordMessages.accountWithThatNameAlreadyExists()
+            ).queue();
+
             return;
         }
 
         if (accountManager.containsAccountByDiscordId(discordId)) {
-            event.reply("An account with the same discord id already exists").queue();
+            event.reply(
+                discordMessages.accountWithThatDiscordIdAlreadyExists()
+            ).queue();
+
             return;
         }
 

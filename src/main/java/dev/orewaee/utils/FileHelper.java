@@ -11,7 +11,7 @@ import dev.orewaee.config.TomlConfig;
 public class FileHelper {
     public static void update() {
         try {
-            String fileName = TomlConfig.getAccountsFileName();
+            String fileName = TomlConfig.getInstance().accountsFileName();
             Writer writer = new FileWriter(fileName);
 
             Gson gson = new Gson();

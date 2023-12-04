@@ -38,7 +38,7 @@ public class InMemoryKeyManager implements KeyManager {
             }
         };
 
-        long time = TomlConfig.getKeyExpirationTime() * 1000;
+        long time = TomlConfig.getInstance().keyExpirationTime() * 1000;
 
         key.timer().schedule(task, time);
 

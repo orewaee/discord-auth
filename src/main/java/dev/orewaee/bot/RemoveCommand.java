@@ -1,23 +1,29 @@
 package dev.orewaee.bot;
 
-import dev.orewaee.account.AccountManager;
-import dev.orewaee.account.JsonAccountManager;
-import dev.orewaee.config.TomlConfig;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.jetbrains.annotations.NotNull;
 
-import net.dv8tion.jda.api.entities.IMentionable;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
+import dev.orewaee.account.AccountManager;
+import dev.orewaee.account.JsonAccountManager;
+import dev.orewaee.config.Config;
+import dev.orewaee.config.DiscordMessages;
+import dev.orewaee.config.TomlConfig;
+import dev.orewaee.config.TomlDiscordMessages;
+
 public class RemoveCommand extends ListenerAdapter {
     private final AccountManager accountManager = JsonAccountManager.getInstance();
 
+    private final Config config = TomlConfig.getInstance();
+    private final DiscordMessages discordMessages = TomlDiscordMessages.getInstance();
+
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (!event.getUser().getId().equals(TomlConfig.getDiscordAdmin())) return;
+        if (!event.getUser().getId().equals(config.adminDiscordId())) return;
 
         if (!event.getName().equals("remove")) return;
 
@@ -32,7 +38,10 @@ public class RemoveCommand extends ListenerAdapter {
         String discordId = discordIdMapping.getAsString();
 
         if (!accountManager.containsAccount(name, discordId)) {
-            event.reply("There is no account with that name or discord id").queue();
+            event.reply(
+                discordMessages.missingAccount()
+            ).queue();
+
             return;
         }
 

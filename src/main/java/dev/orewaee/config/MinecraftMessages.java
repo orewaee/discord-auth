@@ -18,4 +18,8 @@ public interface MinecraftMessages {
     String missingAccount();
 
     String successfulAuth();
+
+    String sendKey();
+
+    String authFirst();
 }

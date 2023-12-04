@@ -7,16 +7,21 @@ import com.velocitypowered.api.command.SimpleCommand;
 
 import net.kyori.adventure.text.Component;
 
-import dev.orewaee.config.TomlConfig;
+import dev.orewaee.config.MinecraftMessages;
+import dev.orewaee.config.TomlMinecraftMessages;
 
 public class ReloadCommand implements SimpleCommand {
+    MinecraftMessages minecraftMessages = TomlMinecraftMessages.getInstance();
+
     @Override
     public void execute(Invocation invocation) {
         CommandSource source = invocation.source();
         String[] arguments = invocation.arguments();
 
         if (arguments.length == 0) {
-            Component message = Component.text("Invalid command syntax");
+            Component message = Component.text(
+                minecraftMessages.invalidCommandSyntax()
+            );
 
             source.sendMessage(message);
 
@@ -25,15 +30,19 @@ public class ReloadCommand implements SimpleCommand {
 
         switch (arguments[0]) {
             case "reload" -> {
-                TomlConfig.loadConfig();
+                // todo reload config and messages
 
-                Component message = Component.text("Successful config reload");
+                Component message = Component.text(
+                    minecraftMessages.configReloaded()
+                );
 
                 source.sendMessage(message);
             }
 
             default -> {
-                Component message = Component.text("There can be no such argument");
+                Component message = Component.text(
+                    minecraftMessages.invalidCommandSyntax()
+                );
 
                 source.sendMessage(message);
             }

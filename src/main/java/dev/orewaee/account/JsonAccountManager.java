@@ -8,13 +8,13 @@ import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
 
-import dev.orewaee.utils.FileHelper;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import dev.orewaee.config.TomlConfig;
+import dev.orewaee.utils.FileHelper;
 
 public class JsonAccountManager implements AccountManager {
     private static final AccountManager instance = new JsonAccountManager();
@@ -22,7 +22,7 @@ public class JsonAccountManager implements AccountManager {
     private Set<Account> accounts = new HashSet<>();
 
     public JsonAccountManager() {
-        Path path = Path.of(TomlConfig.getAccountsFileName());
+        Path path = Path.of(TomlConfig.getInstance().accountsFileName());
         Path dirs = path.getParent();
 
         try {

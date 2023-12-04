@@ -2,14 +2,14 @@ package dev.orewaee.utils;
 
 import com.velocitypowered.api.proxy.Player;
 
-import dev.orewaee.account.Account;
-import dev.orewaee.account.AccountManager;
-import dev.orewaee.account.JsonAccountManager;
-import dev.orewaee.key.InMemoryKeyManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
-import dev.orewaee.config.TomlConfig;
+import dev.orewaee.account.Account;
+import dev.orewaee.account.AccountManager;
+import dev.orewaee.account.JsonAccountManager;
+import dev.orewaee.config.TomlMinecraftMessages;
+import dev.orewaee.key.InMemoryKeyManager;
 import dev.orewaee.key.Key;
 import dev.orewaee.key.KeyManager;
 
@@ -24,7 +24,7 @@ public class Utils {
 
         Key key = new Key();
 
-        String text = TomlConfig.getSendKeyMessage().replace("%key%", key.code());
+        String text = TomlMinecraftMessages.getInstance().sendKey().replace("%key%", key.code());
         Component message = MiniMessage.miniMessage().deserialize(text);
 
         player.sendMessage(message);

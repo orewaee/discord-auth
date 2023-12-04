@@ -18,6 +18,7 @@ import com.velocitypowered.api.proxy.server.ServerInfo;
 
 import dev.orewaee.bot.Bot;
 import dev.orewaee.commands.ReloadCommand;
+import dev.orewaee.config.Config;
 import dev.orewaee.events.*;
 import dev.orewaee.commands.AccountCommand;
 import dev.orewaee.commands.TestCommand;
@@ -37,16 +38,16 @@ public class Main {
         this.proxy = proxy;
         this.logger = logger;
 
-        TomlConfig.loadConfig();
+        Config config = TomlConfig.getInstance();
 
-        this.bot = new Bot(TomlConfig.getBotToken());
+        this.bot = new Bot(config.botToken());
 
         RegisteredServer lobby = null;
         List<RegisteredServer> servers = new ArrayList<>();
         for (RegisteredServer server : proxy.getAllServers()) {
             ServerInfo info = server.getServerInfo();
 
-            if (info.getName().equals(TomlConfig.getLobbyServer())) lobby = server;
+            if (info.getName().equals(config.lobbyServerName())) lobby = server;
             else servers.add(server);
         }
 

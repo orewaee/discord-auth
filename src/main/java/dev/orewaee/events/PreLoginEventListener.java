@@ -8,9 +8,13 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import dev.orewaee.account.Account;
 import dev.orewaee.account.AccountManager;
 import dev.orewaee.account.JsonAccountManager;
+import dev.orewaee.config.MinecraftMessages;
+import dev.orewaee.config.TomlMinecraftMessages;
 
 public class PreLoginEventListener {
     private final AccountManager accountManager = JsonAccountManager.getInstance();
+
+    private final MinecraftMessages minecraftMessages = TomlMinecraftMessages.getInstance();
 
     @Subscribe
     public void onPreLogin(PreLoginEvent event) {
@@ -22,7 +26,9 @@ public class PreLoginEventListener {
 
         event.setResult(
             PreLoginEvent.PreLoginComponentResult.denied(
-                MiniMessage.miniMessage().deserialize("<#16D886>Account missing!")
+                MiniMessage.miniMessage().deserialize(
+                    minecraftMessages.missingAccount()
+                )
             )
         );
     }

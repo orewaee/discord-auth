@@ -25,7 +25,7 @@ public class InMemorySessionManager implements SessionManager {
             }
         };
 
-        long time = TomlConfig.getSessionExpirationTime() * 1000;
+        long time = TomlConfig.getInstance().sessionExpirationTime() * 1000;
 
         session.timer().schedule(task, time);
 
