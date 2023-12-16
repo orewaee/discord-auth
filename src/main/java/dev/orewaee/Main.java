@@ -17,7 +17,7 @@ import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 
 import dev.orewaee.bot.Bot;
-import dev.orewaee.commands.ReloadCommand;
+import dev.orewaee.commands.ReloadBrigadierCommand;
 import dev.orewaee.config.Config;
 import dev.orewaee.events.*;
 import dev.orewaee.commands.AccountCommand;
@@ -92,7 +92,11 @@ public class Main {
             .plugin(this)
             .build();
 
-        commandManager.register(reloadCommandMeta, new ReloadCommand());
+        commandManager.register(
+            reloadCommandMeta,
+            ReloadBrigadierCommand.createBrigadierCommand()
+        );
+
         commandManager.register(testCommandMeta, new TestCommand());
         commandManager.register(accoundCommandMeta, new AccountCommand());
     }

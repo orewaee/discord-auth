@@ -14,7 +14,7 @@ public class TomlConfig implements Config {
 
     private TomlParseResult toml;
 
-    public TomlConfig() {
+    private void load() {
         Path path = Path.of("plugins/DiscordAuth/config.toml");
         Path dirs = path.getParent();
 
@@ -37,6 +37,15 @@ public class TomlConfig implements Config {
             System.out.println("Error while loading config");
             exception.printStackTrace();
         }
+    }
+
+    @Override
+    public void reload() {
+        load();
+    }
+
+    public TomlConfig() {
+        load();
     }
 
     @Override
