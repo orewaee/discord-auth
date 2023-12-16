@@ -22,6 +22,27 @@ In general, these are all the necessary settings.
 
 The properties found in the `config.toml` and `messages.toml` files can be freely modified.
 
+Example of `config.toml` settings:
+
+```toml
+# Path to the file where player accounts will be stored
+accounts_file_name = "plugins/DiscordAuth/accounts.json"
+
+# Lifetime in seconds of the key and session, respectively
+key_expiration_time = 60
+session_expiration_time = 3600
+
+# Server lobby name
+lobby_server_name = "lobby"
+
+# Discord bot token
+bot_token = ""
+
+# Discord admin
+discord_admin_id = ""
+
+```
+
 
 ## Commands
 
@@ -32,7 +53,10 @@ The properties found in the `config.toml` and `messages.toml` files can be freel
 
 ### Minecraft
 
-- `/da reload` - reloads the plugin config.
+- `/discordauth reload config` - reloads the plugin config.
+- `/discordauth reload messages` - reloads the plugin messages.
+- `/discordauth reload all` - reloads the plugin config and messages.
+
 - `/account add <discord id> <name>` - adds a new account.
 - `/account Remove <discord id> <name>` - deletes an existing account.
 - `/test` is a temporary command needed for debugging.
