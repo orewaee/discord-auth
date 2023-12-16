@@ -1,6 +1,8 @@
 package dev.orewaee.config;
 
 public interface DiscordMessages {
+    void reload();
+
     String accountWithThatNameAlreadyExists();
     String accountWithThatDiscordIdAlreadyExists();
 

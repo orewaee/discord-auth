@@ -11,15 +11,15 @@ account_removed = "Account successful removed"
 config_reloaded = "Config successfully reloaded"
 messages_reloaded = "Messages successfully reloaded"
 
-session_restored = "Session successfully restored"
+session_restored = "<#78B159>Session successfully restored"
 
-missing_account = "Missing account"
+missing_account = "<#DD2E46>Missing account"
 
-successful_auth = "Successful auth"
+successful_auth = "<#78B159>Successful auth"
 
-send_key = "Send key <#16D886><click:copy_to_clipboard:%key%><hover:show_text:'Copy'>%key%</hover></click><reset> to Clown#1672 bot"
+send_key = "Send key <#5865F2><click:copy_to_clipboard:%key%><hover:show_text:'Copy'>%key%</hover></click><reset> to <#5865F2>DiscordAuth#0000<reset> bot"
 
-auth_first = "<#F8554B>Please login first"
+auth_first = "<#DD2E46>Please auth first"
 
 [discord]
 account_with_that_name_already_exists = "Account with that name already exists"

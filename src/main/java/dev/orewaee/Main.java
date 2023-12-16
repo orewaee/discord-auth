@@ -26,7 +26,7 @@ import dev.orewaee.managers.ServerManager;
 import dev.orewaee.config.TomlConfig;
 import dev.orewaee.version.Updater;
 
-@Plugin(id = Constants.ID, name = Constants.NAME, version = Constants.VERSION)
+@Plugin(id = Constants.ID, name = Constants.NAME, version = Constants.VERSION, authors = {"orewaee"})
 public class Main {
     private final ProxyServer proxy;
     private final Logger logger;

@@ -1,6 +1,8 @@
 package dev.orewaee.config;
 
 public interface MinecraftMessages {
+    void reload();
+
     String invalidCommandSyntax();
 
     String accountAlreadyExists();

@@ -14,7 +14,7 @@ public class TomlDiscordMessages implements DiscordMessages {
 
     private TomlParseResult toml;
 
-    public TomlDiscordMessages() {
+    private void load() {
         Path path = Path.of("plugins/DiscordAuth/messages.toml");
         Path dirs = path.getParent();
 
@@ -37,6 +37,15 @@ public class TomlDiscordMessages implements DiscordMessages {
             System.out.println("Error while loading messages");
             exception.printStackTrace();
         }
+    }
+
+    @Override
+    public void reload() {
+        load();
+    }
+
+    public TomlDiscordMessages() {
+        load();
     }
 
     @Override

@@ -2,38 +2,44 @@
 
 ![DiscordAuth](pictures/banner.png)
 
-DiscordAuth is a plugin that allows you to quickly and easily set up Discord auth for the Velocity proxy server.
+DiscordAuth is a plugin that allows you to quickly and easily set up Discord authorization for your Velocity proxy.
+At the moment the plugin is under development, so some parts of the plugin may be changed.
+If any issue occurs, please report it to [`issues`](https://github.com/orewaee/DiscordAuth/issues).
+
 
 ## Installation
+
 To set up DiscordAuth, there are several steps you need to follow.
 
-First you need to configure the Velocity proxy server.
-It must have at least two servers, one of which will be a lobby.
+First you need to set up a Velocity proxy.
+There must be at least two child servers, one of which will be a lobby.
 Its name must be specified in `config.toml`.
 
-It is also important to specify the Discord bot token and user id in `config.toml`,
-who will be able to use the commands of this very bot.
+It is also important to specify the Discord bot token and user ID,
+which will be able to use the commands of this very bot in `config.toml`.
 
 In general, these are all the necessary settings.
-In addition to them, it is possible to customize messages or session expiration time.
-A complete list of all configurable properties is in `config.toml`.
+
+The properties found in the `config.toml` and `messages.toml` files can be freely modified.
+
 
 ## Commands
-The plugin is currently under development, therefore some commands may disappear.
 
-Please report any incorrect commands in [`issues`](https://github.com/orewaee/DiscordAuth/issues).
+### Discord
 
-#### Discord
 - `/add <name> <discord id>` - adds a new account.
-- `/remove <name> <discord id>` - removes an existing account.
+- `/remove <name> <discord id>` - deletes an existing account.
 
-#### Minecraft
+### Minecraft
+
 - `/da reload` - reloads the plugin config.
 - `/account add <discord id> <name>` - adds a new account.
-- `/account remove <discord id> <name>` - removes an existing account.
+- `/account Remove <discord id> <name>` - deletes an existing account.
 - `/test` is a temporary command needed for debugging.
 
+
 ## Gallery
+
 ![](pictures/key.png)
 
 ![](pictures/minecraft_success.png)
@@ -42,8 +48,9 @@ Please report any incorrect commands in [`issues`](https://github.com/orewaee/Di
 
 ![](pictures/discord_add.png)
 
+
 ## TODO
-- [x] Fix version checking
+- [x] Version checking fixed
 - [ ] Fix other managers
-- [ ] Separate config and messages
-- [ ] Rewrite commands to brigadier command
+- [x] Separate config and messages
+- [ ] Rewrite commands for the foreman team

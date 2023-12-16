@@ -7,10 +7,13 @@ import com.velocitypowered.api.command.SimpleCommand;
 
 import net.kyori.adventure.text.Component;
 
+import dev.orewaee.config.DiscordMessages;
+import dev.orewaee.config.TomlDiscordMessages;
 import dev.orewaee.config.MinecraftMessages;
 import dev.orewaee.config.TomlMinecraftMessages;
 
 public class ReloadCommand implements SimpleCommand {
+    DiscordMessages discordMessages = TomlDiscordMessages.getInstance();
     MinecraftMessages minecraftMessages = TomlMinecraftMessages.getInstance();
 
     @Override
@@ -30,7 +33,8 @@ public class ReloadCommand implements SimpleCommand {
 
         switch (arguments[0]) {
             case "reload" -> {
-                // todo reload config and messages
+                discordMessages.reload();
+                minecraftMessages.reload();
 
                 Component message = Component.text(
                     minecraftMessages.configReloaded()
