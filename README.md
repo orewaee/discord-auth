@@ -62,6 +62,27 @@ discord_admin_id = ""
 - `/test` is a temporary command needed for debugging.
 
 
+## Accounts
+
+Accounts are stored in JSON format. The schema is presented below:
+
+```json
+[
+    {
+        "name": "",
+        "discordId": ""
+    },
+    
+    ...
+    
+    {
+        "name": "",
+        "discordId": ""
+    }
+]
+```
+
+
 ## Gallery
 
 ![](pictures/key.png)
