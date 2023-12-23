@@ -47,8 +47,9 @@ discord_admin_id = ""
 
 ### Discord
 
-- `/add <name> <discord id>` - adds a new account.
-- `/remove <name> <discord id>` - deletes an existing account.
+- `/add <name> <discord_id>` - adds a new account.
+- `/remove <name> <discord_id>` - deletes an existing account.
+- `/accounts` - displays a list of accounts.
 
 ### Minecraft
 
@@ -56,8 +57,8 @@ discord_admin_id = ""
 - `/discordauth reload messages` - reloads the plugin messages.
 - `/discordauth reload all` - reloads the plugin config and messages.
 
-- `/account add <discord id> <name>` - adds a new account.
-- `/account Remove <discord id> <name>` - deletes an existing account.
+- `/account add <discord_id> <name>` - adds a new account.
+- `/account Remove <discord_id> <name>` - deletes an existing account.
 - `/test` is a temporary command needed for debugging.
 
 

@@ -81,4 +81,9 @@ public class AccountCommand implements SimpleCommand {
             ));
         }
     }
+
+    @Override
+    public boolean hasPermission(Invocation invocation) {
+        return invocation.source().hasPermission("discordauth.account");
+    }
 }
