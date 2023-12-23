@@ -12,4 +12,4 @@ lobby_server_name = "lobby"
 bot_token = ""
 
 # Discord admin
-discord_admin_id = ""
+admin_discord_id = ""

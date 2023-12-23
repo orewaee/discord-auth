@@ -13,7 +13,8 @@ public class Bot {
             .enableIntents(GatewayIntent.DIRECT_MESSAGES)
             .addEventListeners(new EventsListener())
             .addEventListeners(new AddCommand())
-            .addEventListeners(new RemoveCommand());
+            .addEventListeners(new RemoveCommand())
+            .addEventListeners(new AccountsCommand());
 
         JDA jda = jdaBuilder.build();
 
@@ -43,7 +44,8 @@ public class Bot {
                     "discord_id",
                     "Account discord id",
                     true
-                )
+                ),
+            Commands.slash("accounts", "Displays a list of all accounts")
         ).queue();
     }
 }
