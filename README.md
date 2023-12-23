@@ -40,7 +40,6 @@ bot_token = ""
 
 # Discord admin
 discord_admin_id = ""
-
 ```
 
 
@@ -98,4 +97,5 @@ Accounts are stored in JSON format. The schema is presented below:
 - [x] Version checking fixed
 - [ ] Fix other managers
 - [x] Separate config and messages
-- [ ] Rewrite commands for the foreman team
+- [ ] Rewrite commands
+- [ ] Add reload accounts feature
