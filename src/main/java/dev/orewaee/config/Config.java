@@ -1,5 +1,7 @@
 package dev.orewaee.config;
 
+import java.util.List;
+
 public interface Config {
     void reload();
 
@@ -11,5 +13,5 @@ public interface Config {
     String lobbyServerName();
 
     String botToken();
-    String adminDiscordId();
+    List<String> adminDiscordId();
 }

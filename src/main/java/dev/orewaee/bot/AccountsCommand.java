@@ -13,8 +13,7 @@ import dev.orewaee.account.JsonAccountManager;
 import dev.orewaee.config.Config;
 import dev.orewaee.config.TomlConfig;
 
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class AccountsCommand extends ListenerAdapter {
     private final AccountManager accountManager = JsonAccountManager.getInstance();
@@ -23,27 +22,68 @@ public class AccountsCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (!event.getUser().getId().equals(config.adminDiscordId())) return;
+        if (!config.adminDiscordId().contains(event.getUser().getId())) return;
 
         if (!event.getName().equals("accounts")) return;
 
         Set<Account> accounts = accountManager.getAccounts();
         int quantity = accounts.size();
-        StringJoiner result = new StringJoiner("\n");
-        for (Account account : accounts)
-            result.add(
-                String.format("- `%s` ||%s||", account.name(), account.discordId())
+
+        if (quantity == 0) {
+            MessageEmbed embed = new EmbedBuilder()
+                .setColor(0x5865f2)
+                .setTitle(":page_with_curl: List of accounts")
+                .setDescription("No accounts found at this time.")
+                .build();
+
+            event.replyEmbeds(embed).queue();
+
+            return;
+        }
+
+        int pool = 32;
+
+        int messages = (int) Math.ceil(quantity / (double) pool);
+
+        List<StringJoiner> results = new ArrayList<>();
+        for (int i = 0; i < messages; i++) results.add(new StringJoiner("\n"));
+
+        int i = 0;
+        for (Account account : accounts) {
+            int pos = i / pool;
+
+            results.get(pos).add(
+                String.format(
+                    "- `%s` ||%s||",
+                    account.name(),
+                    account.discordId()
+                )
             );
 
-        MessageEmbed embed = new EmbedBuilder()
-            .setColor(0x5865f2)
-            .setTitle(":page_with_curl: List of accounts")
-            .setDescription(
-                quantity == 0 ? "No accounts found at this time." :
-                    String.format("At the moment, %d accounts have been found.\n\n%s", quantity, result)
-            )
-            .build();
+            i++;
+        }
 
-        event.replyEmbeds(embed).queue();
+        List<MessageEmbed> embeds = new ArrayList<>();
+
+        embeds.add(
+            new EmbedBuilder()
+                .setColor(0x5865f2)
+                .setTitle(":page_with_curl: List of accounts")
+                .setDescription(
+                    String.format("At the moment, %d accounts have been found.", quantity)
+                )
+                .build()
+        );
+
+        for (StringJoiner result : results) {
+            MessageEmbed embed = new EmbedBuilder()
+                .setColor(0x5865f2)
+                .setDescription(result + "")
+                .build();
+
+            embeds.add(embed);
+        }
+
+        event.replyEmbeds(embeds).queue();
     }
 }

@@ -3,6 +3,8 @@ package dev.orewaee.config;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 
 import org.tomlj.Toml;
 import org.tomlj.TomlParseResult;
@@ -74,8 +76,9 @@ public class TomlConfig implements Config {
     }
 
     @Override
-    public String adminDiscordId() {
-        return toml.getString("admin_discord_id");
+    public List<String> adminDiscordId() {
+        String[] array = toml.getString("admin_discord_id").split(";");
+        return Arrays.asList(array);
     }
 
     public static Config getInstance() {

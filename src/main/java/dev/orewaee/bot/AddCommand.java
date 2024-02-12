@@ -23,7 +23,7 @@ public class AddCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (!event.getUser().getId().equals(config.adminDiscordId())) return;
+        if (!config.adminDiscordId().contains(event.getUser().getId())) return;
 
         if (!event.getName().equals("add")) return;
 
