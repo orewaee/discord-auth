@@ -39,7 +39,7 @@ lobby_server_name = "lobby"
 bot_token = ""
 
 # Discord admin
-discord_admin_id = ""
+discord_admin_id = "a;b;c"
 ```
 
 
@@ -50,6 +50,7 @@ discord_admin_id = ""
 - `/add <name> <discord_id>` - adds a new account.
 - `/remove <name> <discord_id>` - deletes an existing account.
 - `/accounts` - displays a list of accounts.
+- `/sync` - rename all guild members.
 
 ### Minecraft
 
@@ -68,17 +69,9 @@ Accounts are stored in JSON format. The schema is presented below:
 
 ```json
 [
-    {
-        "name": "",
-        "discordId": ""
-    },
-    
+    {"name": "", "discordId": ""}
     ...
-    
-    {
-        "name": "",
-        "discordId": ""
-    }
+    {"name": "", "discordId": ""}
 ]
 ```
 
