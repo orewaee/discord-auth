@@ -7,6 +7,11 @@ At the moment the plugin is under development, so some parts of the plugin may b
 If any issue occurs, please report it to [`issues`](https://github.com/orewaee/DiscordAuth/issues).
 
 
+## Attention
+
+The project is currently being reworked. You can help by suggesting new features, code snippets or something like that. To do this, go to [Discord](https://discord.gg/4XqbAf4t72).
+
+
 ## Installation
 
 To set up DiscordAuth, there are several steps you need to follow.
