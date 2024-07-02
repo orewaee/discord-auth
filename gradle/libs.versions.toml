@@ -1,5 +1,7 @@
 [versions]
-annotations = "24.0.0"
+annotations = "24.1.0"
+velocity = "3.3.0-SNAPSHOT"
 
 [libraries]
 annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
+velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
