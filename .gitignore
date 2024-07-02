@@ -2,7 +2,7 @@
 /out
 
 /.gradle
-/build
+*/build
 
 *.war
 *.nar
