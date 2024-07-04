@@ -11,10 +11,12 @@ import org.slf4j.Logger;
 
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
+import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.EventManager;
-import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.command.CommandManager;
+import com.velocitypowered.api.command.CommandMeta;
 
 import dev.orewaee.discordauth.api.DiscordAuthAPI;
 import dev.orewaee.discordauth.api.account.AccountManager;
@@ -29,6 +31,7 @@ import dev.orewaee.discordauth.velocity.events.DisconnectListener;
 import dev.orewaee.discordauth.velocity.events.PostLoginListener;
 import dev.orewaee.discordauth.velocity.events.PreLoginListener;
 import dev.orewaee.discordauth.velocity.events.ServerPreConnectListener;
+import dev.orewaee.discordauth.velocity.commands.Debug;
 import dev.orewaee.discordauth.velocity.discord.Bot;
 import dev.orewaee.discordauth.common.config.Config;
 
@@ -66,6 +69,7 @@ public class DiscordAuth implements DiscordAuthAPI {
     @Subscribe
     public void onProxyInitialize(ProxyInitializeEvent event) {
         registerEvents(proxy.getEventManager());
+        registerCommands(proxy.getCommandManager());
 
         new Bot("");
     }
@@ -75,6 +79,14 @@ public class DiscordAuth implements DiscordAuthAPI {
         manager.register(this, new PostLoginListener(accountManager, keyManager, poolManager, sessionManager));
         manager.register(this, new PreLoginListener(accountManager));
         manager.register(this, new ServerPreConnectListener(accountManager, poolManager));
+    }
+
+    private void registerCommands(CommandManager manager) {
+        CommandMeta debugMeta = manager.metaBuilder("debug")
+            .plugin(this)
+            .build();
+
+        manager.register(debugMeta, new Debug(accountManager, keyManager, poolManager, sessionManager));
     }
 
     @Override
