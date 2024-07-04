@@ -9,6 +9,7 @@ repositories {
 dependencies {
     compileOnly(libs.velocity)
     annotationProcessor(libs.velocity)
+    implementation(libs.jda)
 
     implementation(project(":common"))
 }

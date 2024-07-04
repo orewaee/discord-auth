@@ -27,6 +27,7 @@ import dev.orewaee.discordauth.velocity.events.DisconnectListener;
 import dev.orewaee.discordauth.velocity.events.PostLoginListener;
 import dev.orewaee.discordauth.velocity.events.PreLoginListener;
 import dev.orewaee.discordauth.velocity.events.ServerPreConnectListener;
+import dev.orewaee.discordauth.velocity.discord.Bot;
 
 @Plugin(id = "discordauth", name = "discord-auth", version = "0.4.0", authors = {"orewaee"})
 public class DiscordAuth implements DiscordAuthAPI {
@@ -56,6 +57,8 @@ public class DiscordAuth implements DiscordAuthAPI {
     @Subscribe
     public void onProxyInitialize(ProxyInitializeEvent event) {
         registerEvents(proxy.getEventManager());
+
+        new Bot("");
     }
 
     private void registerEvents(EventManager manager) {
