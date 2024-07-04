@@ -2,10 +2,12 @@
 annotations = "24.1.0"
 velocity = "3.3.0-SNAPSHOT"
 gson = "2.11.0"
+toml = "0.7.2"
 jda = "5.0.0-beta.24"
 
 [libraries]
 annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+toml = { module = "com.moandjiezana.toml:toml4j", version.ref = "toml" }
 jda = { module = "net.dv8tion:JDA", version.ref = "jda" }

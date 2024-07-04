@@ -1,5 +1,6 @@
 package dev.orewaee.discordauth.velocity;
 
+import java.nio.file.Path;
 import java.io.IOException;
 
 import org.jetbrains.annotations.NotNull;
@@ -9,6 +10,7 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.EventManager;
@@ -28,6 +30,7 @@ import dev.orewaee.discordauth.velocity.events.PostLoginListener;
 import dev.orewaee.discordauth.velocity.events.PreLoginListener;
 import dev.orewaee.discordauth.velocity.events.ServerPreConnectListener;
 import dev.orewaee.discordauth.velocity.discord.Bot;
+import dev.orewaee.discordauth.common.config.Config;
 
 @Plugin(id = "discordauth", name = "discord-auth", version = "0.4.0", authors = {"orewaee"})
 public class DiscordAuth implements DiscordAuthAPI {
@@ -35,6 +38,9 @@ public class DiscordAuth implements DiscordAuthAPI {
 
     private final ProxyServer proxy;
     private final Logger logger;
+    private final Path directory;
+
+    private final Config config;
 
     private final AccountManager accountManager;
     private final KeyManager keyManager;
@@ -42,16 +48,19 @@ public class DiscordAuth implements DiscordAuthAPI {
     private final SessionManager sessionManager;
 
     @Inject
-    public DiscordAuth(ProxyServer proxy, Logger logger) throws IOException {
+    public DiscordAuth(ProxyServer proxy, Logger logger, @DataDirectory Path directory) throws IOException {
         instance = this;
 
         this.proxy = proxy;
         this.logger = logger;
+        this.directory = directory;
+
+        this.config = new Config(directory.resolve("config.toml"));
 
         this.accountManager = new JsonAccountManager();
-        this.keyManager = new InMemoryKeyManager(1000 * 10);
+        this.keyManager = new InMemoryKeyManager(config);
         this.poolManager = new InMemoryPoolManager();
-        this.sessionManager = new InMemorySessionManager(1000 * 60);
+        this.sessionManager = new InMemorySessionManager(config);
     }
 
     @Subscribe

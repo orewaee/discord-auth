@@ -10,13 +10,16 @@ import org.jetbrains.annotations.Nullable;
 import dev.orewaee.discordauth.api.account.Account;
 import dev.orewaee.discordauth.api.session.Session;
 import dev.orewaee.discordauth.api.session.SessionManager;
+import dev.orewaee.discordauth.common.config.Config;
 
 public class InMemorySessionManager implements SessionManager {
-    private final long sessionLifetime;
+    private final Config config;
     private final Map<Account, Session> sessions;
 
-    public InMemorySessionManager(long sessionLifetime) {
-        this.sessionLifetime = sessionLifetime;
+    private final static String SESSIONS_LIFETIME = "sessions.lifetime";
+
+    public InMemorySessionManager(Config config) {
+        this.config = config;
         this.sessions = new HashMap<>();
     }
 
@@ -33,7 +36,8 @@ public class InMemorySessionManager implements SessionManager {
             }
         };
 
-        session.getTimer().schedule(task, sessionLifetime);
+        long delay = 1000 * config.getLong(SESSIONS_LIFETIME, 60);
+        session.getTimer().schedule(task, delay);
     }
 
     @Override

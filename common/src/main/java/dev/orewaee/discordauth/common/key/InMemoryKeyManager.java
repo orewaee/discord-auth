@@ -10,13 +10,16 @@ import org.jetbrains.annotations.Nullable;
 import dev.orewaee.discordauth.api.account.Account;
 import dev.orewaee.discordauth.api.key.Key;
 import dev.orewaee.discordauth.api.key.KeyManager;
+import dev.orewaee.discordauth.common.config.Config;
 
 public class InMemoryKeyManager implements KeyManager {
-    private final long keyLifetime;
+    private final Config config;
     private final Map<Account, Key> keys;
 
-    public InMemoryKeyManager(long keyLifetime) {
-        this.keyLifetime = keyLifetime;
+    private static final String KEYS_LIFETIME = "keys.lifetime";
+
+    public InMemoryKeyManager(Config config) {
+        this.config = config;
         this.keys = new HashMap<>();
     }
 
@@ -33,7 +36,8 @@ public class InMemoryKeyManager implements KeyManager {
             }
         };
 
-        key.getTimer().schedule(task, keyLifetime);
+        long delay = 1000 * config.getLong(KEYS_LIFETIME, 10);
+        key.getTimer().schedule(task, delay);
     }
 
     @Override

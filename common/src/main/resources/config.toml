@@ -1,0 +1,18 @@
+[keys]
+# Key lifetime.
+lifetime = 10
+
+[sessions]
+# Session lifetime.
+# If you specify zero or a negative value, the session will not be created.
+lifetime = 600
+
+[servers]
+# The name of the server the player will be on during auth.
+# Please note that this field cannot be empty.
+limbo = "limbo"
+
+# The name of the server the player will be redirected to after successful auth.
+# If you leave this field blank, no redirection will occur.
+redirect = ""
+
