@@ -9,7 +9,9 @@ repositories {
 dependencies {
     compileOnly(libs.velocity)
     annotationProcessor(libs.velocity)
-    implementation(libs.jda)
+    implementation(libs.jda) {
+        exclude(module = "opus-java")
+    }
 
     implementation(project(":common"))
 }

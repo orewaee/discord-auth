@@ -3,7 +3,7 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.annotations)
+    compileOnly(libs.annotations)
     compileOnly(libs.velocity)
     annotationProcessor(libs.velocity)
 }

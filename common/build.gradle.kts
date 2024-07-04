@@ -1,5 +1,5 @@
 dependencies {
-    implementation(libs.annotations)
+    compileOnly(libs.annotations)
     implementation(libs.gson)
     implementation(libs.toml)
 
