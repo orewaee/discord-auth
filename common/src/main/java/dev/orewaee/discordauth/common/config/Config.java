@@ -17,6 +17,8 @@ public class Config {
     public Config(Path file) {
         this.file = file;
         this.dirs = file.getParent();
+
+        load();
     }
 
     private void load() {
@@ -37,7 +39,7 @@ public class Config {
 
             toml = new Toml().read(reader);
         } catch (IOException exception) {
-
+            exception.printStackTrace();
         }
     }
 
