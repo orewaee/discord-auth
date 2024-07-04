@@ -23,7 +23,7 @@ public class JsonAccountManager implements AccountManager {
 
     private final Gson gson = new Gson();
 
-    private final Path dirs = Path.of("./plugins/discord-auth/");
+    private final Path dirs = Path.of("./plugins/discordauth/");
     private final Path file = Path.of("accounts.json");
 
     public JsonAccountManager() throws IOException {
