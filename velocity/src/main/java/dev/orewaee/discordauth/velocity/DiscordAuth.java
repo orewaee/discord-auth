@@ -67,16 +67,16 @@ public class DiscordAuth implements DiscordAuthAPI {
     }
 
     @Subscribe
-    public void onProxyInitialize(ProxyInitializeEvent event) {
+    public void onProxyInitialize(ProxyInitializeEvent event) throws IOException {
         registerEvents(proxy.getEventManager());
         registerCommands(proxy.getCommandManager());
 
-        new Bot("");
+        new Bot(config);
     }
 
     private void registerEvents(EventManager manager) {
         manager.register(this, new DisconnectListener(accountManager, keyManager, poolManager, sessionManager));
-        manager.register(this, new PostLoginListener(accountManager, keyManager, poolManager, sessionManager));
+        manager.register(this, new PostLoginListener(config));
         manager.register(this, new PreLoginListener(accountManager));
         manager.register(this, new ServerPreConnectListener(accountManager, poolManager));
     }
