@@ -20,22 +20,48 @@ import dev.orewaee.discordauth.common.utils.Utils;
 import dev.orewaee.discordauth.common.config.Config;
 
 import dev.orewaee.discordauth.velocity.DiscordAuth;
+import dev.orewaee.discordauth.velocity.utils.Redirector;
 
 public class PostLoginListener {
+    private final Config config;
     private final AccountManager accountManager;
     private final KeyManager keyManager;
     private final PoolManager poolManager;
     private final SessionManager sessionManager;
-    private final Config config;
+
+    private final static String SERVERS_REDIRECT = "servers.redirect";
 
     public PostLoginListener(Config config) {
+        this.config = config;
+
         DiscordAuthAPI api = DiscordAuth.getInstance();
 
         this.accountManager = api.getAccountManager();
         this.keyManager = api.getKeyManager();
         this.poolManager = api.getPoolManager();
         this.sessionManager = api.getSessionManager();
-        this.config = config;
+    }
+
+    class KeyRefresher implements Runnable {
+        private final Account account;
+
+        public KeyRefresher(Account account) {
+            this.account = account;
+        }
+
+        @Override
+        public void run() {
+            keyManager.removeByAccount(account);
+
+            Pool pool = poolManager.getByAccount(account);
+            if (pool == null || pool.getStatus()) return;
+
+            String value = Utils.genValue();
+            Key key = new Key(value);
+            pool.getPlayer().sendMessage(Component.text(value));
+
+            keyManager.add(account, key, new KeyRefresher(account));
+        }
     }
 
     @Subscribe
@@ -52,50 +78,29 @@ public class PostLoginListener {
             return;
         }
 
-        Pool pool = new Pool(player, false);
-        poolManager.add(account, pool);
+        Pool newPool = new Pool(player, false);
+        poolManager.add(account, newPool);
 
         Session session = sessionManager.getByAccount(account);
 
-        if (session != null) {
-            sessionManager.removeByAccount(account);
+        if (session != null) sessionManager.removeByAccount(account);
 
-            if (session.getIp().equals(ip)) {
-                pool.setStatus(true);
+        if (session != null && session.getIp().equals(ip)) {
+            newPool.setStatus(true);
 
-                String serverName = config.getString("servers.redirect", "");
-                System.out.println("servers.redirect " + serverName);
-                if (!serverName.isEmpty()) DiscordAuth.getInstance()
-                    .getProxy()
-                    .getServer(serverName)
-                    .ifPresent(server -> pool
-                        .getPlayer()
-                        .createConnectionRequest(server)
-                        .connect());
+            String target = config.getString(SERVERS_REDIRECT, "");
+            if (!target.isEmpty()) Redirector.redirect(player, target);
 
-                player.sendMessage(Component.text("Session restored"));
+            Component message = Component.text("Session restored");
+            player.sendMessage(message);
 
-                return;
-            }
+            return;
         }
 
-        Key key = new Key(Utils.genValue("abcdefghijklmnopqrstuvwxyz"));
-        pool.getPlayer().sendMessage(Component.text(key.getValue()));
+        String value = Utils.genValue();
+        Key key = new Key(value);
+        player.sendMessage(Component.text(value));
 
-        class Actions implements Runnable {
-            @Override
-            public void run() {
-                keyManager.removeByAccount(account);
-
-                Pool p = poolManager.getByAccount(account);
-                if (p == null || p.getStatus()) return;
-
-                Key k = new Key(Utils.genValue("abcdefghijklmnopqrstuvwxyz"));
-                p.getPlayer().sendMessage(Component.text(k.getValue()));
-                keyManager.add(account, k, new Actions());
-            }
-        }
-
-        keyManager.add(account, key, new Actions());
+        keyManager.add(account, key, new KeyRefresher(account));
     }
 }

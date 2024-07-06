@@ -26,6 +26,10 @@ public class Utils {
         return random.nextInt(max + 1 - min) + min;
     }
 
+    public static String genValue() {
+        return genValue("abcdefghijklmnopqrstuvwxyz");
+    }
+
     public static String genValue(String alphabet) {
         char[] chars = alphabet.toCharArray();
 
