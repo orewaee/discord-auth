@@ -19,20 +19,24 @@ import dev.orewaee.discordauth.api.pool.PoolManager;
 import dev.orewaee.discordauth.common.config.Config;
 
 import dev.orewaee.discordauth.velocity.DiscordAuth;
+import dev.orewaee.discordauth.velocity.utils.Redirector;
 
 public class DMListener extends ListenerAdapter {
+    private final Config config;
     private final AccountManager accountManager;
     private final KeyManager keyManager;
     private final PoolManager poolManager;
-    private final Config config;
+
+    private final static String SERVERS_REDIRECT = "servers.redirect";
 
     public DMListener(Config config) {
+        this.config = config;
+
         DiscordAuthAPI api = DiscordAuth.getInstance();
 
         this.accountManager = api.getAccountManager();
         this.keyManager = api.getKeyManager();
         this.poolManager = api.getPoolManager();
-        this.config = config;
     }
 
     @Override
@@ -55,20 +59,12 @@ public class DMListener extends ListenerAdapter {
         if (!key.getValue().equals(messageContent)) return;
 
         pool.setStatus(true);
-        pool.getPlayer().sendMessage(Component.text("successful auth"));
         keyManager.removeByAccount(account);
 
-        // redirecting
-        String serverName = config.getString("servers.redirect", "");
-        System.out.println("servers.redirect " + serverName);
-        if (!serverName.isEmpty()) DiscordAuth.getInstance()
-            .getProxy()
-            .getServer(serverName)
-            .ifPresent(server -> pool
-                .getPlayer()
-                .createConnectionRequest(server)
-                .connect());
+        String target = config.getString(SERVERS_REDIRECT, "");
+        if (!target.isEmpty()) Redirector.redirect(pool.getPlayer(), target);
 
+        pool.getPlayer().sendMessage(Component.text("successful auth"));
         event.getMessage().reply("successful auth").queue();
     }
 }
