@@ -16,3 +16,6 @@ limbo = "limbo"
 # If you leave this field blank, no redirection will occur.
 redirect = ""
 
+[discord]
+# Your Discord bot's token.
+token = ""
