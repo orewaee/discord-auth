@@ -1,26 +1,37 @@
 package dev.orewaee.discordauth.velocity.events;
 
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.event.player.ServerPreConnectEvent.ServerResult;
-import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.Player;
 
 import net.kyori.adventure.text.Component;
 
+import dev.orewaee.discordauth.api.DiscordAuthAPI;
 import dev.orewaee.discordauth.api.account.Account;
 import dev.orewaee.discordauth.api.account.AccountManager;
 import dev.orewaee.discordauth.api.pool.Pool;
 import dev.orewaee.discordauth.api.pool.PoolManager;
+
+import dev.orewaee.discordauth.common.config.Config;
+
 import dev.orewaee.discordauth.velocity.DiscordAuth;
 
 public class ServerPreConnectListener {
+    private final Config config;
     private final AccountManager accountManager;
     private final PoolManager poolManager;
 
-    public ServerPreConnectListener(AccountManager accountManager, PoolManager poolManager) {
-        this.accountManager = accountManager;
-        this.poolManager = poolManager;
+    private final static String SERVERS_LIMBO = "servers.limbo";
+
+    public ServerPreConnectListener(Config config) {
+        this.config = config;
+
+        DiscordAuthAPI api = DiscordAuth.getInstance();
+
+        this.accountManager = api.getAccountManager();
+        this.poolManager = api.getPoolManager();
     }
 
     @Subscribe
@@ -38,16 +49,18 @@ public class ServerPreConnectListener {
         RegisteredServer original = event.getOriginalServer();
         RegisteredServer limbo = DiscordAuth.getInstance()
             .getProxy()
-            .getServer("limbo")
+            .getServer(config.getString(SERVERS_LIMBO, "limbo"))
             .orElse(null);
 
         Pool pool = poolManager.getByAccount(account);
 
         boolean validPool = pool != null && pool.getStatus();
-
         if (validPool || original.equals(limbo)) return;
 
-        event.setResult(ServerPreConnectEvent.ServerResult.denied());
-        player.sendMessage(Component.text("auth first"));
+        ServerResult result = ServerPreConnectEvent.ServerResult.denied();
+        event.setResult(result);
+
+        Component message = Component.text("auth first");
+        player.sendMessage(message);
     }
 }
