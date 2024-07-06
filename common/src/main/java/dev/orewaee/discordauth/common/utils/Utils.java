@@ -1,9 +1,9 @@
 package dev.orewaee.discordauth.common.utils;
 
-import java.nio.file.Path;
-import java.nio.file.Files;
 import java.io.InputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Files;
 import java.util.Random;
 
 public class Utils {

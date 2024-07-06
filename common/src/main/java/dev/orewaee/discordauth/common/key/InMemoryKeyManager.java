@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import dev.orewaee.discordauth.api.account.Account;
 import dev.orewaee.discordauth.api.key.Key;
 import dev.orewaee.discordauth.api.key.KeyManager;
+
 import dev.orewaee.discordauth.common.config.Config;
 
 public class InMemoryKeyManager implements KeyManager {

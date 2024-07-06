@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import dev.orewaee.discordauth.api.account.Account;
 import dev.orewaee.discordauth.api.account.AccountManager;
+
 import dev.orewaee.discordauth.common.utils.Utils;
 
 public class JsonAccountManager implements AccountManager {

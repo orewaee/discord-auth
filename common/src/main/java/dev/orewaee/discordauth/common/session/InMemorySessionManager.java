@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import dev.orewaee.discordauth.api.account.Account;
 import dev.orewaee.discordauth.api.session.Session;
 import dev.orewaee.discordauth.api.session.SessionManager;
+
 import dev.orewaee.discordauth.common.config.Config;
 
 public class InMemorySessionManager implements SessionManager {

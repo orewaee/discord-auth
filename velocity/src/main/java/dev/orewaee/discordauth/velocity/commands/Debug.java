@@ -2,10 +2,13 @@ package dev.orewaee.discordauth.velocity.commands;
 
 import com.velocitypowered.api.command.RawCommand;
 
+import dev.orewaee.discordauth.api.DiscordAuthAPI;
 import dev.orewaee.discordauth.api.account.AccountManager;
 import dev.orewaee.discordauth.api.key.KeyManager;
 import dev.orewaee.discordauth.api.pool.PoolManager;
 import dev.orewaee.discordauth.api.session.SessionManager;
+
+import dev.orewaee.discordauth.velocity.DiscordAuth;
 
 public class Debug implements RawCommand {
     private final AccountManager accountManager;
@@ -13,11 +16,13 @@ public class Debug implements RawCommand {
     private final PoolManager poolManager;
     private final SessionManager sessionManager;
 
-    public Debug(AccountManager accountManager, KeyManager keyManager, PoolManager poolManager, SessionManager sessionManager) {
-        this.accountManager = accountManager;
-        this.keyManager = keyManager;
-        this.poolManager = poolManager;
-        this.sessionManager = sessionManager;
+    public Debug() {
+        DiscordAuthAPI api = DiscordAuth.getInstance();
+
+        this.accountManager = api.getAccountManager();
+        this.keyManager = api.getKeyManager();
+        this.poolManager = api.getPoolManager();
+        this.sessionManager = api.getSessionManager();
     }
 
     @Override

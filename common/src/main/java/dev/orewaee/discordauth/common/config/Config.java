@@ -1,12 +1,12 @@
 package dev.orewaee.discordauth.common.config;
 
-import com.moandjiezana.toml.Toml;
-
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Files;
+
+import com.moandjiezana.toml.Toml;
 
 public class Config {
     private final Path file;
