@@ -6,14 +6,19 @@ import com.velocitypowered.api.event.connection.PreLoginEvent.PreLoginComponentR
 
 import net.kyori.adventure.text.Component;
 
+import dev.orewaee.discordauth.api.DiscordAuthAPI;
 import dev.orewaee.discordauth.api.account.Account;
 import dev.orewaee.discordauth.api.account.AccountManager;
+
+import dev.orewaee.discordauth.velocity.DiscordAuth;
 
 public class PreLoginListener {
     private final AccountManager accountManager;
 
-    public PreLoginListener(AccountManager accountManager) {
-        this.accountManager = accountManager;
+    public PreLoginListener() {
+        DiscordAuthAPI api = DiscordAuth.getInstance();
+
+        this.accountManager = api.getAccountManager();
     }
 
     @Subscribe
