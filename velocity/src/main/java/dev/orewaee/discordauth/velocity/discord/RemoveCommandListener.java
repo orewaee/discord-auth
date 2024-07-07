@@ -1,16 +1,20 @@
 package dev.orewaee.discordauth.velocity.discord;
 
+import org.jetbrains.annotations.NotNull;
+
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+
 import dev.orewaee.discordauth.api.DiscordAuthAPI;
 import dev.orewaee.discordauth.api.account.Account;
 import dev.orewaee.discordauth.api.account.AccountManager;
+
 import dev.orewaee.discordauth.common.config.Config;
+
 import dev.orewaee.discordauth.velocity.DiscordAuth;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import org.jetbrains.annotations.NotNull;
 
 public class RemoveCommandListener extends ListenerAdapter {
     private final Config config;

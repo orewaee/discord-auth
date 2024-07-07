@@ -40,7 +40,7 @@ public class AddCommandListener extends ListenerAdapter {
         if (discordIdMapping == null) return;
         String discordId = discordIdMapping.getAsString();
 
-        if (accountManager.containsByDiscordId(name)) {
+        if (accountManager.containsByName(name)) {
             event.reply("An account with this name already exists").queue();
             return;
         }
