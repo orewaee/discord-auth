@@ -28,7 +28,8 @@ public class Bot {
             .setMemberCachePolicy(MemberCachePolicy.ALL)
             .addEventListeners(
                 new DMListener(config),
-                new AddCommandListener(config)
+                new AddCommandListener(config),
+                new RemoveCommandListener(config)
             );
 
         this.jda = builder.build();
@@ -36,6 +37,8 @@ public class Bot {
         jda.updateCommands().addCommands(
             Commands.slash("add", "Add new account")
                 .addOption(OptionType.STRING, "name", "Account name", true)
+                .addOption(OptionType.USER, "discord_id", "Account discordId", true),
+            Commands.slash("remove", "Remove existing account")
                 .addOption(OptionType.USER, "discord_id", "Account discordId", true)
         ).queue();
     }
