@@ -19,3 +19,8 @@ redirect = ""
 [discord]
 # Your Discord bot's token.
 token = ""
+
+# Discord bot activity. Only the following activities will work: custom, competing, listening, playing, watching.
+# If you specify an empty string or anything else, the activity will not be applied.
+activity = "custom"
+name = "https://github.com/orewaee/discord-auth/"
