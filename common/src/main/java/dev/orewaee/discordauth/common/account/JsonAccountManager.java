@@ -62,11 +62,13 @@ public class JsonAccountManager implements AccountManager {
     @Override
     public void removeByName(@NotNull String name) {
         accounts.removeIf(account -> account.getName().equals(name));
+        save();
     }
 
     @Override
     public void removeByDiscordId(@NotNull String discordId) {
         accounts.removeIf(account -> account.getDiscordId().equals(discordId));
+        save();
     }
 
     @Override
