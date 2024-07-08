@@ -16,11 +16,11 @@ import dev.orewaee.discordauth.common.config.Config;
 
 import dev.orewaee.discordauth.velocity.DiscordAuth;
 
-public class RemoveCommandListener extends ListenerAdapter {
+public class RemoveByNameCommandListener extends ListenerAdapter {
     private final Config config;
     private final AccountManager accountManager;
 
-    public RemoveCommandListener(Config config) {
+    public RemoveByNameCommandListener(Config config) {
         this.config = config;
 
         DiscordAuthAPI api = DiscordAuth.getInstance();
@@ -30,20 +30,20 @@ public class RemoveCommandListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (!event.getName().equals("remove")) return;
+        if (!event.getFullCommandName().equals("remove byname")) return;
 
-        OptionMapping discordIdMapping = event.getOption("discord_id");
-        if (discordIdMapping == null) return;
-        String discordId = discordIdMapping.getAsString();
+        OptionMapping nameMapping = event.getOption("name");
+        if (nameMapping == null) return;
+        String name = nameMapping.getAsString();
 
-        Account account = accountManager.getByDiscordId(discordId);
+        Account account = accountManager.getByName(name);
 
         if (account == null) {
-            event.reply("There is no account with this discordId").queue();
+            event.reply("There is no account with this name").queue();
             return;
         }
 
-        accountManager.removeByDiscordId(discordId);
+        accountManager.removeByName(name);
 
         MessageEmbed embed = new EmbedBuilder()
             .setColor(0xdd2e44)
@@ -52,7 +52,7 @@ public class RemoveCommandListener extends ListenerAdapter {
             .setDescription(
                 String.format(
                     "Account removed successfully. To add it, use the command:\n```/add %s %s```",
-                    account.getName(), discordId
+                    name, account.getDiscordId()
                 )
             ).build();
 

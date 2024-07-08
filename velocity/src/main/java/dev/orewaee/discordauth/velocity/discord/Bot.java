@@ -5,14 +5,13 @@ import java.io.IOException;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
-import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 
 import dev.orewaee.discordauth.common.config.Config;
 
@@ -52,7 +51,8 @@ public class Bot {
         builder.addEventListeners(
             new DMListener(config),
             new AddCommandListener(config),
-            new RemoveCommandListener(config),
+            new RemoveByNameCommandListener(config),
+            new RemoveByDiscordIdCommandListener(config),
             new ListCommandListener(config)
         );
     }
@@ -74,13 +74,20 @@ public class Bot {
     }
 
     private void addCommands() {
-        jda.updateCommands().addCommands(
-            Commands.slash("add", "Add new account")
-                .addOption(OptionType.STRING, "name", "Account name", true)
-                .addOption(OptionType.USER, "discord_id", "Account discordId", true),
-            Commands.slash("remove", "Remove existing account")
-                .addOption(OptionType.USER, "discord_id", "Account discordId", true),
-            Commands.slash("list", "List of all accounts")
-        ).queue();
+        CommandData add = Commands.slash("add", "Add new account")
+            .addOption(OptionType.STRING, "name", "Account name", true)
+            .addOption(OptionType.USER, "discord_id", "Account discordId", true);
+
+        CommandData remove = Commands.slash("remove", "Remove existing account")
+            .addSubcommands(
+                new SubcommandData("byname", "Remove account by name")
+                    .addOption(OptionType.STRING, "name", "Account name", true),
+                new SubcommandData("bydiscordid", "Remove account by discordId")
+                    .addOption(OptionType.USER, "discord_id", "Account discordId", true)
+            );
+
+        CommandData list = Commands.slash("list", "List of all accounts");
+
+        jda.updateCommands().addCommands(add, remove, list).queue();
     }
 }

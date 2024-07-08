@@ -16,11 +16,11 @@ import dev.orewaee.discordauth.common.config.Config;
 
 import dev.orewaee.discordauth.velocity.DiscordAuth;
 
-public class AddCommandListener extends ListenerAdapter {
+public class RemoveByDiscordIdCommandListener extends ListenerAdapter {
     private final Config config;
     private final AccountManager accountManager;
 
-    public AddCommandListener(Config config) {
+    public RemoveByDiscordIdCommandListener(Config config) {
         this.config = config;
 
         DiscordAuthAPI api = DiscordAuth.getInstance();
@@ -30,37 +30,29 @@ public class AddCommandListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (!event.getName().equals("add")) return;
-
-        OptionMapping nameMapping = event.getOption("name");
-        if (nameMapping == null) return;
-        String name = nameMapping.getAsString();
-
+        if (!event.getFullCommandName().equals("remove bydiscordid")) return;
+        
         OptionMapping discordIdMapping = event.getOption("discord_id");
         if (discordIdMapping == null) return;
         String discordId = discordIdMapping.getAsString();
 
-        if (accountManager.containsByName(name)) {
-            event.reply("An account with this name already exists").queue();
+        Account account = accountManager.getByDiscordId(discordId);
+
+        if (account == null) {
+            event.reply("There is no account with this discordId").queue();
             return;
         }
 
-        if (accountManager.containsByDiscordId(discordId)) {
-            event.reply("An account with this discordId already exists").queue();
-            return;
-        }
-
-        Account newAccount = new Account(name, discordId);
-        accountManager.add(newAccount);
+        accountManager.removeByDiscordId(discordId);
 
         MessageEmbed embed = new EmbedBuilder()
-            .setColor(0x78b159)
-            .setAuthor(name, null, "https://mc-heads.net/avatar/" + name)
-            .setTitle(":green_square: Account added")
+            .setColor(0xdd2e44)
+            .setAuthor(account.getName(), null, "https://mc-heads.net/avatar/" + account.getName())
+            .setTitle(":red_square: Account removed")
             .setDescription(
                 String.format(
-                    "Account added successfully. To remove it, use one of the commands:\n```/remove byname %s\n/remove bydiscordid %s```",
-                    name, discordId
+                    "Account removed successfully. To add it, use the command:\n```/add %s %s```",
+                    account.getName(), discordId
                 )
             ).build();
 
