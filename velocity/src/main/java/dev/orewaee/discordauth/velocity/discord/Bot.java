@@ -49,7 +49,8 @@ public class Bot {
         builder.addEventListeners(
             new DMListener(config),
             new AddCommandListener(config),
-            new RemoveCommandListener(config)
+            new RemoveCommandListener(config),
+            new ListCommandListener(config)
         );
     }
 
