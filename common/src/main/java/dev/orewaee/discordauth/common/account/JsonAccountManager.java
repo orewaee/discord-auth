@@ -90,6 +90,11 @@ public class JsonAccountManager implements AccountManager {
     }
 
     @Override
+    public List<Account> getAll() {
+        return accounts;
+    }
+
+    @Override
     public boolean containsByName(@NotNull String name) {
         for (Account account : accounts)
             if (account.getName().equals(name))
