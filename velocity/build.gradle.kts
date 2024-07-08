@@ -1,4 +1,5 @@
 plugins {
+    id("net.kyori.blossom") version "1.3.1"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -14,6 +15,11 @@ dependencies {
     }
 
     implementation(project(":common"))
+}
+
+blossom {
+    replaceTokenIn("dev/orewaee/discordauth/velocity/DiscordAuth.java")
+    replaceToken("@version", version.toString())
 }
 
 tasks {

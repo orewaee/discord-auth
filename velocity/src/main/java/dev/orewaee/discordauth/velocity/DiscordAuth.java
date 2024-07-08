@@ -40,7 +40,7 @@ import dev.orewaee.discordauth.velocity.discord.Bot;
 @Plugin(
     id = "discordauth",
     name = "discord-auth",
-    version = "0.4.0",
+    version = "@version",
     authors = {"orewaee"}
 )
 public class DiscordAuth implements DiscordAuthAPI {
