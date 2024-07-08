@@ -53,7 +53,8 @@ public class Bot {
             new AddCommandListener(config),
             new RemoveByNameCommandListener(config),
             new RemoveByDiscordIdCommandListener(config),
-            new ListCommandListener(config)
+            new ListCommandListener(config),
+            new SyncCommandListener(config)
         );
     }
 
@@ -88,6 +89,8 @@ public class Bot {
 
         CommandData list = Commands.slash("list", "List of all accounts");
 
-        jda.updateCommands().addCommands(add, remove, list).queue();
+        CommandData sync = Commands.slash("sync", "Sync guild member names with accounts");
+
+        jda.updateCommands().addCommands(add, remove, list, sync).queue();
     }
 }
