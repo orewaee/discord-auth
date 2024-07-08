@@ -1,5 +1,7 @@
 package dev.orewaee.discordauth.api.account;
 
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,6 +47,13 @@ public interface AccountManager {
      * @return an account with the specified discordId, or {@code null} if it does not exist
      */
     @Nullable Account getByDiscordId(@NotNull String discordId);
+
+    /**
+     * Gets a list of all accounts.
+     *
+     * @return list of all accounts.
+     */
+    List<Account> getAll();
 
     /**
      * Checks for the existence of an account by name.
