@@ -44,6 +44,11 @@ public class Config {
         }
     }
 
+
+    public void reload() {
+        load();
+    }
+
     public String getString(String key, String def) {
         return toml.getString(key, def);
     }

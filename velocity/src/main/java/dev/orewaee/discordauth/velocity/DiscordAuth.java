@@ -35,6 +35,7 @@ import dev.orewaee.discordauth.velocity.events.PostLoginListener;
 import dev.orewaee.discordauth.velocity.events.PreLoginListener;
 import dev.orewaee.discordauth.velocity.events.ServerPreConnectListener;
 import dev.orewaee.discordauth.velocity.commands.Debug;
+import dev.orewaee.discordauth.velocity.commands.ReloadCommand;
 import dev.orewaee.discordauth.velocity.discord.Bot;
 
 @Plugin(
@@ -94,6 +95,13 @@ public class DiscordAuth implements DiscordAuthAPI {
             .build();
 
         manager.register(debugMeta, new Debug());
+
+        CommandMeta meta = manager.metaBuilder("discordauth")
+                .aliases("da")
+                .plugin(this)
+                .build();
+
+        manager.register(meta, new ReloadCommand(config));
     }
 
     @Override
