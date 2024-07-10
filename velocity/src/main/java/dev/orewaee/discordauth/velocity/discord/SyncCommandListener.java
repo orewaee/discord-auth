@@ -21,6 +21,8 @@ public class SyncCommandListener extends ListenerAdapter {
     private final Config config;
     private final AccountManager accountManager;
 
+    private final static String DISCORD_IDS = "discord.ids";
+
     public SyncCommandListener(Config config) {
         this.config = config;
 
@@ -31,6 +33,12 @@ public class SyncCommandListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        String userId = event.getUser().getId();
+        if (!config.getList(DISCORD_IDS, List.of()).contains(userId)) {
+            event.reply("You do not have permission").setEphemeral(true).queue();
+            return;
+        }
+
         if (!event.getName().equals("sync")) return;
 
         int total = 0;

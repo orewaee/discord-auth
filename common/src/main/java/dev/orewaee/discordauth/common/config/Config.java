@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Files;
+import java.util.List;
 
 import com.moandjiezana.toml.Toml;
 
@@ -45,6 +46,10 @@ public class Config {
 
     public String getString(String key, String def) {
         return toml.getString(key, def);
+    }
+
+    public List<String> getList(String key, List<String> def) {
+        return toml.getList(key, def);
     }
 
     public long getLong(String key, long def) {

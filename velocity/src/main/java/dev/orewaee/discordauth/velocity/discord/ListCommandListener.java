@@ -23,6 +23,8 @@ public class ListCommandListener extends ListenerAdapter {
     private final Config config;
     private final AccountManager accountManager;
 
+    private final static String DISCORD_IDS = "discord.ids";
+
     public ListCommandListener(Config config) {
         this.config = config;
 
@@ -33,6 +35,12 @@ public class ListCommandListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        String userId = event.getUser().getId();
+        if (!config.getList(DISCORD_IDS, List.of()).contains(userId)) {
+            event.reply("You do not have permission").setEphemeral(true).queue();
+            return;
+        }
+
         if (!event.getName().equals("list")) return;
 
         List<Account> accounts = accountManager.getAll();

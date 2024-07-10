@@ -1,5 +1,7 @@
 package dev.orewaee.discordauth.velocity.discord;
 
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -20,6 +22,8 @@ public class RemoveByNameCommandListener extends ListenerAdapter {
     private final Config config;
     private final AccountManager accountManager;
 
+    private final static String DISCORD_IDS = "discord.ids";
+
     public RemoveByNameCommandListener(Config config) {
         this.config = config;
 
@@ -30,6 +34,12 @@ public class RemoveByNameCommandListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        String userId = event.getUser().getId();
+        if (!config.getList(DISCORD_IDS, List.of()).contains(userId)) {
+            event.reply("You do not have permission").setEphemeral(true).queue();
+            return;
+        }
+
         if (!event.getFullCommandName().equals("remove byname")) return;
 
         OptionMapping nameMapping = event.getOption("name");

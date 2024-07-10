@@ -1,9 +1,9 @@
 [keys]
-# Key lifetime.
+# Key lifetime in seconds.
 lifetime = 10
 
 [sessions]
-# Session lifetime.
+# Session lifetime in seconds.
 # If you specify zero or a negative value, the session will not be created.
 lifetime = 600
 
@@ -19,6 +19,9 @@ redirect = ""
 [discord]
 # Your Discord bot's token.
 token = ""
+
+# List of Discord user IDs that will have access to bot commands.
+ids = [""]
 
 # Discord bot activity. Only the following activities will work: custom, competing, listening, playing, watching.
 # If you specify an empty string or anything else, the activity will not be applied.
