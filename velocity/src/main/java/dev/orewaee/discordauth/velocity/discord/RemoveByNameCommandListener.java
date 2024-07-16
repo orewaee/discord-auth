@@ -23,6 +23,10 @@ public class RemoveByNameCommandListener extends ListenerAdapter {
     private final AccountManager accountManager;
 
     private final static String DISCORD_IDS = "discord.ids";
+    private final static String NO_PERMISSION = "discord-components.no-permission";
+    private final static String NO_NAME = "discord-components.no-name";
+    private final static String REMOVE_TITLE = "discord-components.remove-title";
+    private final static String REMOVE_DESCRIPTION = "discord-components.remove-description";
 
     public RemoveByNameCommandListener(Config config) {
         this.config = config;
@@ -36,7 +40,10 @@ public class RemoveByNameCommandListener extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         String userId = event.getUser().getId();
         if (!config.getList(DISCORD_IDS, List.of()).contains(userId)) {
-            event.reply("You do not have permission").setEphemeral(true).queue();
+            String content = config
+                .getString(NO_PERMISSION, "You don't have permission to use it");
+
+            event.reply(content).setEphemeral(true).queue();
             return;
         }
 
@@ -49,22 +56,32 @@ public class RemoveByNameCommandListener extends ListenerAdapter {
         Account account = accountManager.getByName(name);
 
         if (account == null) {
-            event.reply("There is no account with this name").queue();
+            String content = config
+                .getString(NO_NAME, "There is no account with this name")
+                .replace("%name%", name);
+
+            event.reply(content).queue();
             return;
         }
 
         accountManager.removeByName(name);
 
+        String title = config
+            .getString(REMOVE_TITLE, ":red_square: Account removed")
+            .replace("%name%", name)
+            .replace("%discordid%", account.getDiscordId());
+
+        String description = config
+            .getString(REMOVE_DESCRIPTION, "The account %name% ||%discordid%|| was successfully removed")
+            .replace("%name%", name)
+            .replace("%discordid%", account.getDiscordId());
+
         MessageEmbed embed = new EmbedBuilder()
             .setColor(0xdd2e44)
-            .setAuthor(account.getName(), null, "https://mc-heads.net/avatar/" + account.getName())
-            .setTitle(":red_square: Account removed")
-            .setDescription(
-                String.format(
-                    "Account removed successfully. To add it, use the command:\n```/add %s %s```",
-                    name, account.getDiscordId()
-                )
-            ).build();
+            .setAuthor(name, null, "https://mc-heads.net/avatar/" + name)
+            .setTitle(title)
+            .setDescription(description)
+            .build();
 
         event.replyEmbeds(embed).queue();
     }

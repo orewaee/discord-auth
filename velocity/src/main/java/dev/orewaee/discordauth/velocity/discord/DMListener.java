@@ -28,6 +28,7 @@ public class DMListener extends ListenerAdapter {
     private final PoolManager poolManager;
 
     private final static String SERVERS_REDIRECT = "servers.redirect";
+    private final static String SUCCESSFUL_AUTH = "discord-components.successful-auth";
 
     public DMListener(Config config) {
         this.config = config;
@@ -65,6 +66,12 @@ public class DMListener extends ListenerAdapter {
         if (!target.isEmpty()) Redirector.redirect(pool.getPlayer(), target);
 
         pool.getPlayer().sendMessage(Component.text("successful auth"));
-        event.getMessage().reply("successful auth").queue();
+
+        String content = config
+            .getString(SUCCESSFUL_AUTH, ":green_square: Successful auth")
+            .replace("%name%", account.getName())
+            .replace("%discordid%", discordId);
+
+        event.getMessage().reply(content).queue();
     }
 }

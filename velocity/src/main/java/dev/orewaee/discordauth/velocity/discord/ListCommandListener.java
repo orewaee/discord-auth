@@ -24,6 +24,11 @@ public class ListCommandListener extends ListenerAdapter {
     private final AccountManager accountManager;
 
     private final static String DISCORD_IDS = "discord.ids";
+    private final static String NO_PERMISSION = "discord-components.no-permission";
+    private final static String LIST_TITLE = "discord-components.list-title";
+    private final static String LIST_NO_ACCOUNTS = "discord-components.list-no-accounts";
+    private final static String LIST_DESCRIPTION = "discord-components.list-description";
+    private final static String LIST_ITEM = "discord-components.list-item";
 
     public ListCommandListener(Config config) {
         this.config = config;
@@ -37,7 +42,10 @@ public class ListCommandListener extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         String userId = event.getUser().getId();
         if (!config.getList(DISCORD_IDS, List.of()).contains(userId)) {
-            event.reply("You do not have permission").setEphemeral(true).queue();
+            String content = config
+                .getString(NO_PERMISSION, "You don't have permission to use it");
+
+            event.reply(content).setEphemeral(true).queue();
             return;
         }
 
@@ -46,11 +54,19 @@ public class ListCommandListener extends ListenerAdapter {
         List<Account> accounts = accountManager.getAll();
         int quantity = accounts.size();
 
+        String title = config
+            .getString(LIST_TITLE, ":page_with_curl: List of accounts")
+            .replace("%quantity%", quantity + "");
+
         if (quantity == 0) {
+            String description = config
+                .getString(LIST_NO_ACCOUNTS, "No accounts found at this time")
+                .replace("%quantity%", quantity + "");
+
             MessageEmbed embed = new EmbedBuilder()
                 .setColor(0x5865f2)
-                .setTitle(":page_with_curl: List of accounts")
-                .setDescription("No accounts found at this time.")
+                .setTitle(title)
+                .setDescription(description)
                 .build();
 
             event.replyEmbeds(embed).queue();
@@ -63,22 +79,28 @@ public class ListCommandListener extends ListenerAdapter {
         List<StringJoiner> results = new ArrayList<>();
         for (int i = 0; i < messages; i++) results.add(new StringJoiner("\n"));
 
+        String item = config.getString(LIST_ITEM, "- `%name%` ||%discordid%||");
         for (int i = 0; i < accounts.size(); i++) {
             Account account = accounts.get(i);
-            String item = String.format("- `%s` ||%s||", account.getName(), account.getDiscordId());
 
             int position = i / chunk;
-            results.get(position).add(item);
+            results.get(position).add(
+                item
+                    .replace("%name%", account.getName())
+                    .replace("%discordid%", account.getDiscordId())
+            );
         }
 
         List<MessageEmbed> embeds = new ArrayList<>();
 
+        String description = config
+            .getString(LIST_DESCRIPTION, "At the moment, %quantity% accounts have been found")
+            .replace("%quantity%", quantity + "");
+
         MessageEmbed header = new EmbedBuilder()
             .setColor(0x5865f2)
-            .setTitle(":page_with_curl: List of accounts")
-            .setDescription(
-                String.format("At the moment, %d accounts have been found.", quantity)
-            ).build();
+            .setTitle(title)
+            .setDescription(description).build();
 
         embeds.add(header);
 
@@ -87,6 +109,7 @@ public class ListCommandListener extends ListenerAdapter {
                 .setColor(0x5865f2)
                 .setDescription(result + "")
                 .build();
+
             embeds.add(embed);
         }
 

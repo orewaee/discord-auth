@@ -77,14 +77,14 @@ public class Bot {
     private void addCommands() {
         CommandData add = Commands.slash("add", "Add new account")
             .addOption(OptionType.STRING, "name", "Account name", true)
-            .addOption(OptionType.USER, "discord_id", "Account discordId", true);
+            .addOption(OptionType.USER, "discordid", "Account discordid", true);
 
         CommandData remove = Commands.slash("remove", "Remove existing account")
             .addSubcommands(
                 new SubcommandData("byname", "Remove account by name")
                     .addOption(OptionType.STRING, "name", "Account name", true),
-                new SubcommandData("bydiscordid", "Remove account by discordId")
-                    .addOption(OptionType.USER, "discord_id", "Account discordId", true)
+                new SubcommandData("bydiscordid", "Remove account by discordid")
+                    .addOption(OptionType.USER, "discordid", "Account discordid", true)
             );
 
         CommandData list = Commands.slash("list", "List of all accounts");

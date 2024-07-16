@@ -22,6 +22,8 @@ public class SyncCommandListener extends ListenerAdapter {
     private final AccountManager accountManager;
 
     private final static String DISCORD_IDS = "discord.ids";
+    private final static String NO_PERMISSION = "discord-components.no-permission";
+    private final static String SYNC_MESSAGE = "discord-components.sync-message";
 
     public SyncCommandListener(Config config) {
         this.config = config;
@@ -35,7 +37,10 @@ public class SyncCommandListener extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         String userId = event.getUser().getId();
         if (!config.getList(DISCORD_IDS, List.of()).contains(userId)) {
-            event.reply("You do not have permission").setEphemeral(true).queue();
+            String content = config
+                .getString(NO_PERMISSION, "You don't have permission to use it");
+
+            event.reply(content).setEphemeral(true).queue();
             return;
         }
 
@@ -69,7 +74,12 @@ public class SyncCommandListener extends ListenerAdapter {
             }
         }
 
-        String message = String.format("Done. Guilds: %d. Total: %s. Successful: %s.", guilds.size(), total, successful);
+        String message = config
+            .getString(SYNC_MESSAGE, "Done. Guilds: %guilds%. Total: %total%. Successful: %successful%.")
+            .replace("%guilds%", guilds.size() + "")
+            .replace("%total%", total + "")
+            .replace("%successful%", successful + "");
+
         event.reply(message).queue();
     }
 }

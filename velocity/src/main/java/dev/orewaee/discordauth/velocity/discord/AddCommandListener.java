@@ -23,6 +23,12 @@ public class AddCommandListener extends ListenerAdapter {
     private final AccountManager accountManager;
 
     private final static String DISCORD_IDS = "discord.ids";
+    private final static String NO_PERMISSION = "discord-components.no-permission";
+    private final static String NAME_EXISTS = "discord-components.name-exists";
+    private final static String DISCORDID_EXISTS = "discord-components.discordid-exists";
+    private final static String ADD_TITLE = "discord-components.add-title";
+    private final static String ADD_DESCRIPTION = "discord-components.add-description";
+
 
     public AddCommandListener(Config config) {
         this.config = config;
@@ -36,7 +42,10 @@ public class AddCommandListener extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         String userId = event.getUser().getId();
         if (!config.getList(DISCORD_IDS, List.of()).contains(userId)) {
-            event.reply("You do not have permission").setEphemeral(true).queue();
+            String content = config
+                .getString(NO_PERMISSION, "You don't have permission to use it");
+
+            event.reply(content).setEphemeral(true).queue();
             return;
         }
 
@@ -46,33 +55,47 @@ public class AddCommandListener extends ListenerAdapter {
         if (nameMapping == null) return;
         String name = nameMapping.getAsString();
 
-        OptionMapping discordIdMapping = event.getOption("discord_id");
+        OptionMapping discordIdMapping = event.getOption("discordid");
         if (discordIdMapping == null) return;
         String discordId = discordIdMapping.getAsString();
 
         if (accountManager.containsByName(name)) {
-            event.reply("An account with this name already exists").queue();
+            String content = config
+                .getString(NAME_EXISTS, "An account with this name already exists")
+                .replace("%name%", name);
+
+            event.reply(content).queue();
             return;
         }
 
         if (accountManager.containsByDiscordId(discordId)) {
-            event.reply("An account with this discordId already exists").queue();
+            String content = config
+                .getString(DISCORDID_EXISTS, "An account with this discordid already exists")
+                .replace("%discordid%", discordId);
+
+            event.reply(content).queue();
             return;
         }
 
         Account newAccount = new Account(name, discordId);
         accountManager.add(newAccount);
 
+        String title = config
+            .getString(ADD_TITLE, ":green_square: Account added")
+            .replace("%name%", name)
+            .replace("%discordid%", discordId);
+
+        String description = config
+            .getString(ADD_DESCRIPTION, "Account %name% ||%discordid%|| has been successfully added")
+            .replace("%name%", name)
+            .replace("%discordid%", discordId);
+
         MessageEmbed embed = new EmbedBuilder()
             .setColor(0x78b159)
             .setAuthor(name, null, "https://mc-heads.net/avatar/" + name)
-            .setTitle(":green_square: Account added")
-            .setDescription(
-                String.format(
-                    "Account added successfully. To remove it, use one of the commands:\n```/remove byname %s\n/remove bydiscordid %s```",
-                    name, discordId
-                )
-            ).build();
+            .setTitle(title)
+            .setDescription(description)
+            .build();
 
         event.replyEmbeds(embed).queue();
     }
