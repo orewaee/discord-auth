@@ -28,6 +28,30 @@ ids = [""]
 activity = "custom"
 name = "https://github.com/orewaee/discord-auth/"
 
+[minecraft-components]
+# No permission to use command.
+no-permission = "<#dd2e44>You don't have permission to use it"
+
+# Account non-existence.
+# Supported placeholders: %name%.
+no-account = "You don't have an account"
+
+# Message about need to auth first.
+# Supported placeholders: %name%.
+auth-first = "<#dd2e44>Auth first"
+
+# Message with temp key.
+# Supported placeholders: %name%, %key%.
+key-message = "Send key <#5865f2><click:copy_to_clipboard:%key%><hover:show_text:\"Copy\">%key%</hover></click><reset> to bot"
+
+# Message about restored session.
+# Supported placeholders: %name%, %discordid%.
+session-restored = "<#78b159>Session restored"
+
+# Successful auth.
+# Supported placeholders: %name%, %discordid%.
+successful-auth = "<#78b159>Successful auth"
+
 [discord-components]
 # The user does not have permission to use the slash command.
 no-permission = "You don't have permission to use it"

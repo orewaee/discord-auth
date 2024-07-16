@@ -85,7 +85,7 @@ public class DiscordAuth implements DiscordAuthAPI {
     private void registerEvents(EventManager manager) {
         manager.register(this, new DisconnectListener());
         manager.register(this, new PostLoginListener(config));
-        manager.register(this, new PreLoginListener());
+        manager.register(this, new PreLoginListener(config));
         manager.register(this, new ServerPreConnectListener(config));
     }
 

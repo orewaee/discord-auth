@@ -7,6 +7,7 @@ import com.velocitypowered.api.event.player.ServerPreConnectEvent.ServerResult;
 import com.velocitypowered.api.proxy.Player;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import dev.orewaee.discordauth.api.DiscordAuthAPI;
 import dev.orewaee.discordauth.api.account.Account;
@@ -24,6 +25,7 @@ public class ServerPreConnectListener {
     private final PoolManager poolManager;
 
     private final static String SERVERS_LIMBO = "servers.limbo";
+    private final static String AUTH_FIRST = "minecraft-components.auth-first";
 
     public ServerPreConnectListener(Config config) {
         this.config = config;
@@ -60,7 +62,12 @@ public class ServerPreConnectListener {
         ServerResult result = ServerPreConnectEvent.ServerResult.denied();
         event.setResult(result);
 
-        Component message = Component.text("auth first");
-        player.sendMessage(message);
+        String message = config
+            .getString(AUTH_FIRST, "<#dd2e44>Auth first")
+            .replace("%name%", name);
+
+        Component component = MiniMessage.miniMessage().deserialize(message);
+
+        player.sendMessage(component);
     }
 }

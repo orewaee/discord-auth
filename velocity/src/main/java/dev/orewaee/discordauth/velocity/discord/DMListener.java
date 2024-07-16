@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import dev.orewaee.discordauth.api.DiscordAuthAPI;
 import dev.orewaee.discordauth.api.account.Account;
@@ -28,7 +29,8 @@ public class DMListener extends ListenerAdapter {
     private final PoolManager poolManager;
 
     private final static String SERVERS_REDIRECT = "servers.redirect";
-    private final static String SUCCESSFUL_AUTH = "discord-components.successful-auth";
+    private final static String MINECRAFT_SUCCESSFUL_AUTH = "minecraft-components.successful-auth";
+    private final static String DISCORD_SUCCESSFUL_AUTH = "discord-components.successful-auth";
 
     public DMListener(Config config) {
         this.config = config;
@@ -65,10 +67,17 @@ public class DMListener extends ListenerAdapter {
         String target = config.getString(SERVERS_REDIRECT, "");
         if (!target.isEmpty()) Redirector.redirect(pool.getPlayer(), target);
 
-        pool.getPlayer().sendMessage(Component.text("successful auth"));
+        String message = config
+            .getString(MINECRAFT_SUCCESSFUL_AUTH, "<#78b159>Successful auth")
+            .replace("%name%", account.getName())
+            .replace("%discordid%", discordId);
+
+        Component component = MiniMessage.miniMessage().deserialize(message);
+
+        pool.getPlayer().sendMessage(component);
 
         String content = config
-            .getString(SUCCESSFUL_AUTH, ":green_square: Successful auth")
+            .getString(DISCORD_SUCCESSFUL_AUTH, ":green_square: Successful auth")
             .replace("%name%", account.getName())
             .replace("%discordid%", discordId);
 

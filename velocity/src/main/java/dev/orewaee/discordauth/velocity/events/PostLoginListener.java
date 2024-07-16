@@ -5,6 +5,7 @@ import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.proxy.Player;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import dev.orewaee.discordauth.api.DiscordAuthAPI;
 import dev.orewaee.discordauth.api.account.Account;
@@ -30,6 +31,9 @@ public class PostLoginListener {
     private final SessionManager sessionManager;
 
     private final static String SERVERS_REDIRECT = "servers.redirect";
+    private final static String NO_ACCOUNT = "minecraft-components.no-account";
+    private final static String KEY_MESSAGE = "minecraft-components.key-message";
+    private final static String SESSION_RESTORED = "minecraft-components.session-restored";
 
     public PostLoginListener(Config config) {
         this.config = config;
@@ -58,7 +62,15 @@ public class PostLoginListener {
 
             String value = Utils.genValue();
             Key key = new Key(value);
-            pool.getPlayer().sendMessage(Component.text(value));
+
+            String message = config
+                .getString(KEY_MESSAGE, "Send key <#5865f2><click:copy_to_clipboard:%key%><hover:show_text:\"Copy\">%key%</hover></click><reset> to bot")
+                .replace("%name%", pool.getPlayer().getUsername())
+                .replace("%key%", value);
+
+            Component component = MiniMessage.miniMessage().deserialize(message);
+
+            pool.getPlayer().sendMessage(component);
 
             keyManager.add(account, key, new KeyRefresher(account));
         }
@@ -73,8 +85,13 @@ public class PostLoginListener {
         Account account = accountManager.getByName(name);
 
         if (account == null) {
-            Component reason = Component.text("You don't have an account");
-            player.disconnect(reason);
+            String message = config
+                .getString(NO_ACCOUNT, "You don't have an account")
+                .replace("%name%", name);
+
+            Component component = MiniMessage.miniMessage().deserialize(message);
+
+            player.disconnect(component);
             return;
         }
 
@@ -91,15 +108,28 @@ public class PostLoginListener {
             String target = config.getString(SERVERS_REDIRECT, "");
             if (!target.isEmpty()) Redirector.redirect(player, target);
 
-            Component message = Component.text("Session restored");
-            player.sendMessage(message);
+            String message = config
+                .getString(SESSION_RESTORED, "<#78b159>Session restored")
+                .replace("%name%", name)
+                .replace("%discordid%", account.getDiscordId());
 
+            Component component = MiniMessage.miniMessage().deserialize(message);
+
+            player.sendMessage(component);
             return;
         }
 
         String value = Utils.genValue();
         Key key = new Key(value);
-        player.sendMessage(Component.text(value));
+
+        String message = config
+            .getString(KEY_MESSAGE, "Send key <#5865f2><click:copy_to_clipboard:%key%><hover:show_text:\"Copy\">%key%</hover></click><reset> to bot")
+            .replace("%name%", name)
+            .replace("%key%", value);
+
+        Component component = MiniMessage.miniMessage().deserialize(message);
+
+        player.sendMessage(component);
 
         keyManager.add(account, key, new KeyRefresher(account));
     }
