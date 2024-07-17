@@ -1,4 +1,4 @@
-package dev.orewaee.discordauth.velocity.discord;
+package dev.orewaee.discordauth.velocity.discord.listeners;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import dev.orewaee.discordauth.common.config.Config;
 
 import dev.orewaee.discordauth.velocity.DiscordAuth;
 
-public class ListCommandListener extends ListenerAdapter {
+public class ListListener extends ListenerAdapter {
     private final Config config;
     private final AccountManager accountManager;
 
@@ -30,7 +30,7 @@ public class ListCommandListener extends ListenerAdapter {
     private final static String LIST_DESCRIPTION = "discord-components.list-description";
     private final static String LIST_ITEM = "discord-components.list-item";
 
-    public ListCommandListener(Config config) {
+    public ListListener(Config config) {
         this.config = config;
 
         DiscordAuthAPI api = DiscordAuth.getInstance();

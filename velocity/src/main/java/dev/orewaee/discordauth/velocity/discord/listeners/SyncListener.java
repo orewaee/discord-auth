@@ -1,4 +1,4 @@
-package dev.orewaee.discordauth.velocity.discord;
+package dev.orewaee.discordauth.velocity.discord.listeners;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import dev.orewaee.discordauth.common.config.Config;
 
 import dev.orewaee.discordauth.velocity.DiscordAuth;
 
-public class SyncCommandListener extends ListenerAdapter {
+public class SyncListener extends ListenerAdapter {
     private final Config config;
     private final AccountManager accountManager;
 
@@ -25,7 +25,7 @@ public class SyncCommandListener extends ListenerAdapter {
     private final static String NO_PERMISSION = "discord-components.no-permission";
     private final static String SYNC_MESSAGE = "discord-components.sync-message";
 
-    public SyncCommandListener(Config config) {
+    public SyncListener(Config config) {
         this.config = config;
 
         DiscordAuthAPI api = DiscordAuth.getInstance();

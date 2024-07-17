@@ -1,4 +1,4 @@
-package dev.orewaee.discordauth.velocity.events;
+package dev.orewaee.discordauth.velocity.listeners;
 
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PreLoginEvent;

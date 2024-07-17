@@ -1,4 +1,4 @@
-package dev.orewaee.discordauth.velocity.discord;
+package dev.orewaee.discordauth.velocity.discord.listeners;
 
 import org.jetbrains.annotations.NotNull;
 

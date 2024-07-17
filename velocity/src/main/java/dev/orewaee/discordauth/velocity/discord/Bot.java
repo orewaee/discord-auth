@@ -15,6 +15,8 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 
 import dev.orewaee.discordauth.common.config.Config;
 
+import dev.orewaee.discordauth.velocity.discord.listeners.*;
+
 public class Bot {
     private final Config config;
     private final JDABuilder builder;
@@ -50,11 +52,11 @@ public class Bot {
     private void addEventListeners() {
         builder.addEventListeners(
             new DMListener(config),
-            new AddCommandListener(config),
-            new RemoveByNameCommandListener(config),
-            new RemoveByDiscordIdCommandListener(config),
-            new ListCommandListener(config),
-            new SyncCommandListener(config)
+            new AddListener(config),
+            new RemoveByNameListener(config),
+            new RemoveByDiscordIdListener(config),
+            new ListListener(config),
+            new SyncListener(config)
         );
     }
 

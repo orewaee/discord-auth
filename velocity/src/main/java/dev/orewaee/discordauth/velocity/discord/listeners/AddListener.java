@@ -1,4 +1,4 @@
-package dev.orewaee.discordauth.velocity.discord;
+package dev.orewaee.discordauth.velocity.discord.listeners;
 
 import java.util.List;
 
@@ -18,17 +18,18 @@ import dev.orewaee.discordauth.common.config.Config;
 
 import dev.orewaee.discordauth.velocity.DiscordAuth;
 
-public class RemoveByDiscordIdCommandListener extends ListenerAdapter {
+public class AddListener extends ListenerAdapter {
     private final Config config;
     private final AccountManager accountManager;
 
     private final static String DISCORD_IDS = "discord.ids";
     private final static String NO_PERMISSION = "discord-components.no-permission";
-    private final static String NO_DISCORDID = "discord-components.no-discordid";
-    private final static String REMOVE_TITLE = "discord-components.remove-title";
-    private final static String REMOVE_DESCRIPTION = "discord-components.remove-description";
+    private final static String NAME_EXISTS = "discord-components.name-exists";
+    private final static String DISCORDID_EXISTS = "discord-components.discordid-exists";
+    private final static String ADD_TITLE = "discord-components.add-title";
+    private final static String ADD_DESCRIPTION = "discord-components.add-description";
 
-    public RemoveByDiscordIdCommandListener(Config config) {
+    public AddListener(Config config) {
         this.config = config;
 
         DiscordAuthAPI api = DiscordAuth.getInstance();
@@ -47,38 +48,50 @@ public class RemoveByDiscordIdCommandListener extends ListenerAdapter {
             return;
         }
 
-        if (!event.getFullCommandName().equals("remove bydiscordid")) return;
-        
+        if (!event.getName().equals("add")) return;
+
+        OptionMapping nameMapping = event.getOption("name");
+        if (nameMapping == null) return;
+        String name = nameMapping.getAsString();
+
         OptionMapping discordIdMapping = event.getOption("discordid");
         if (discordIdMapping == null) return;
         String discordId = discordIdMapping.getAsString();
 
-        Account account = accountManager.getByDiscordId(discordId);
-
-        if (account == null) {
+        if (accountManager.containsByName(name)) {
             String content = config
-                .getString(NO_DISCORDID, "There is no account with this discordid")
+                .getString(NAME_EXISTS, "An account with this name already exists")
+                .replace("%name%", name);
+
+            event.reply(content).queue();
+            return;
+        }
+
+        if (accountManager.containsByDiscordId(discordId)) {
+            String content = config
+                .getString(DISCORDID_EXISTS, "An account with this discordid already exists")
                 .replace("%discordid%", discordId);
 
             event.reply(content).queue();
             return;
         }
 
-        accountManager.removeByDiscordId(discordId);
+        Account newAccount = new Account(name, discordId);
+        accountManager.add(newAccount);
 
         String title = config
-            .getString(REMOVE_TITLE, ":red_square: Account removed")
-            .replace("%name%", account.getName())
+            .getString(ADD_TITLE, ":green_square: Account added")
+            .replace("%name%", name)
             .replace("%discordid%", discordId);
 
         String description = config
-            .getString(REMOVE_DESCRIPTION, "The account %name% ||%discordid%|| was successfully removed")
-            .replace("%name%", account.getName())
+            .getString(ADD_DESCRIPTION, "Account %name% ||%discordid%|| has been successfully added")
+            .replace("%name%", name)
             .replace("%discordid%", discordId);
 
         MessageEmbed embed = new EmbedBuilder()
-            .setColor(0xdd2e44)
-            .setAuthor(account.getName(), null, "https://mc-heads.net/avatar/" + account.getName())
+            .setColor(0x78b159)
+            .setAuthor(name, null, "https://mc-heads.net/avatar/" + name)
             .setTitle(title)
             .setDescription(description)
             .build();

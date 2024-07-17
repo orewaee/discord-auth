@@ -10,13 +10,13 @@ import dev.orewaee.discordauth.api.session.SessionManager;
 
 import dev.orewaee.discordauth.velocity.DiscordAuth;
 
-public class Debug implements RawCommand {
+public class DebugCommand implements RawCommand {
     private final AccountManager accountManager;
     private final KeyManager keyManager;
     private final PoolManager poolManager;
     private final SessionManager sessionManager;
 
-    public Debug() {
+    public DebugCommand() {
         DiscordAuthAPI api = DiscordAuth.getInstance();
 
         this.accountManager = api.getAccountManager();

@@ -30,11 +30,8 @@ import dev.orewaee.discordauth.common.key.InMemoryKeyManager;
 import dev.orewaee.discordauth.common.pool.InMemoryPoolManager;
 import dev.orewaee.discordauth.common.session.InMemorySessionManager;
 
-import dev.orewaee.discordauth.velocity.events.DisconnectListener;
-import dev.orewaee.discordauth.velocity.events.PostLoginListener;
-import dev.orewaee.discordauth.velocity.events.PreLoginListener;
-import dev.orewaee.discordauth.velocity.events.ServerPreConnectListener;
-import dev.orewaee.discordauth.velocity.commands.Debug;
+import dev.orewaee.discordauth.velocity.listeners.*;
+import dev.orewaee.discordauth.velocity.commands.DebugCommand;
 import dev.orewaee.discordauth.velocity.commands.ReloadCommand;
 import dev.orewaee.discordauth.velocity.discord.Bot;
 
@@ -94,7 +91,7 @@ public class DiscordAuth implements DiscordAuthAPI {
             .plugin(this)
             .build();
 
-        manager.register(debugMeta, new Debug());
+        manager.register(debugMeta, new DebugCommand());
 
         CommandMeta meta = manager.metaBuilder("discordauth")
                 .aliases("da")
