@@ -1,0 +1,25 @@
+name: release
+on:
+  push:
+    tags:
+      - "v*.*.*"
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: corretto
+      - uses: gradle/gradle-build-action@v2
+      - run: chmod +x ./gradlew
+      - run: ./gradlew shadowJar
+      - uses: softprops/action-gh-release@v2
+        with:
+          append_body: true
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          files: |
+            velocity/build/libs/*.jar
