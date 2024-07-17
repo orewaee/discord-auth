@@ -1,0 +1,95 @@
+[keys]
+# Key lifetime in seconds.
+lifetime = 10
+
+[sessions]
+# Session lifetime in seconds.
+# If you specify zero or a negative value, the session will not be created.
+lifetime = 600
+
+[servers]
+# The name of the server the player will be on during auth.
+# Please note that this field cannot be empty.
+limbo = "limbo"
+
+# The name of the server the player will be redirected to after successful auth.
+# If you leave this field blank, no redirection will occur.
+redirect = ""
+
+[discord]
+# Your Discord bot's token.
+token = ""
+
+# List of Discord user IDs that will have access to bot commands.
+ids = [""]
+
+# Discord bot activity. Only the following activities will work: custom, competing, listening, playing, watching.
+# If you specify an empty string or anything else, the activity will not be applied.
+activity = "custom"
+name = "https://github.com/orewaee/discord-auth/"
+
+[minecraft-components]
+# No permission to use command.
+no-permission = "<#dd2e44>You don't have permission to use it"
+
+# Account non-existence.
+# Supported placeholders: %name%.
+no-account = "You don't have an account"
+
+# Message about need to auth first.
+# Supported placeholders: %name%.
+auth-first = "<#dd2e44>Auth first"
+
+# Message with temp key.
+# Supported placeholders: %name%, %key%.
+key-message = "Send key <#5865f2><click:copy_to_clipboard:%key%><hover:show_text:\"Copy\">%key%</hover></click><reset> to bot"
+
+# Message about restored session.
+# Supported placeholders: %name%, %discordid%.
+session-restored = "<#78b159>Session restored"
+
+# Successful auth.
+# Supported placeholders: %name%, %discordid%.
+successful-auth = "<#78b159>Successful auth"
+
+[discord-components]
+# The user does not have permission to use the slash command.
+no-permission = "You don't have permission to use it"
+
+# Successful auth.
+# Supported placeholders: %name%, %discordid%.
+successful-auth = ":green_square: Successful auth"
+
+# Existence and non-existence of an account by name.
+# Supported placeholders: %name%.
+name-exists = "An account with this name already exists"
+no-name = "There is no account with this name"
+
+# Existence and non-existence of an account by discordid.
+# Supported placeholders: %discordid%.
+discordid-exists = "An account with this discordid already exists"
+no-discordid = "There is no account with this discordid"
+
+# Title and description of the account add embed.
+# Supported placeholders: %name%, %discordid%.
+add-title = ":green_square: Account added"
+add-description = "Account %name% ||%discordid%|| has been successfully added"
+
+# Title and description of the account remove embed.
+# Supported placeholders: %name%, %discordid%.
+remove-title = ":red_square: Account removed"
+remove-description = "The account %name% ||%discordid%|| was successfully removed"
+
+# Title and description of the account list embed.
+# Supported placeholders: %quantity%.
+list-title = ":page_with_curl: List of accounts"
+list-no-accounts = "No accounts found at this time"
+list-description = "At the moment, %quantity% accounts have been found"
+
+# Account list item.
+# Supported placeholders: %name%, %discordid%.
+list-item = "- `%name%` ||%discordid%||"
+
+# Sync message.
+# Supported placeholders: %guilds%, %total%, %successful%.
+sync-message = "Done. Guilds: %guilds%. Total: %total%. Successful: %successful%."
