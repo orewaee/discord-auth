@@ -23,3 +23,4 @@ jobs:
           token: "${{ secrets.GITHUB_TOKEN }}"
           files: |
             velocity/build/libs/*.jar
+            api/build/libs/*.jar

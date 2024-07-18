@@ -7,3 +7,7 @@ dependencies {
     compileOnly(libs.velocity)
     annotationProcessor(libs.velocity)
 }
+
+tasks.jar {
+    archiveFileName = "${rootProject.name}-api-$version.jar"
+}

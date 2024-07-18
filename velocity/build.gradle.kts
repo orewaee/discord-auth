@@ -29,6 +29,6 @@ tasks {
     }
 
     shadowJar {
-        archiveFileName.set("${rootProject.name}-$version.jar")
+        archiveFileName = "${rootProject.name}-$version.jar"
     }
 }
