@@ -20,7 +20,7 @@ redirect = ""
 # Your Discord bot's token.
 token = ""
 
-# List of Discord user IDs that will have access to bot commands.
+# A list of Discord user IDs or roles that will have access to bot commands.
 ids = [""]
 
 # Discord bot activity. Only the following activities will work: custom, competing, listening, playing, watching.
