@@ -1,10 +1,9 @@
 package dev.orewaee.discordauth.velocity.discord.listeners;
 
-import java.util.List;
-
 import org.jetbrains.annotations.NotNull;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -17,20 +16,22 @@ import dev.orewaee.discordauth.api.account.AccountManager;
 import dev.orewaee.discordauth.common.config.Config;
 
 import dev.orewaee.discordauth.velocity.DiscordAuth;
+import dev.orewaee.discordauth.velocity.discord.utils.PermissionUtils;
 
 public class AddListener extends ListenerAdapter {
     private final Config config;
     private final AccountManager accountManager;
+    private final PermissionUtils permissionUtils;
 
-    private final static String DISCORD_IDS = "discord.ids";
     private final static String NO_PERMISSION = "discord-components.no-permission";
     private final static String NAME_EXISTS = "discord-components.name-exists";
     private final static String DISCORDID_EXISTS = "discord-components.discordid-exists";
     private final static String ADD_TITLE = "discord-components.add-title";
     private final static String ADD_DESCRIPTION = "discord-components.add-description";
 
-    public AddListener(Config config) {
+    public AddListener(Config config, PermissionUtils permissionUtils) {
         this.config = config;
+        this.permissionUtils = permissionUtils;
 
         DiscordAuthAPI api = DiscordAuth.getInstance();
 
@@ -39,8 +40,10 @@ public class AddListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        String userId = event.getUser().getId();
-        if (!config.getList(DISCORD_IDS, List.of()).contains(userId)) {
+        Member eventMember = event.getMember();
+        if (eventMember == null) return;
+
+        if (permissionUtils.hasPermission(eventMember)) {
             String content = config
                 .getString(NO_PERMISSION, "You don't have permission to use it");
 

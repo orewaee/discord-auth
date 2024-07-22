@@ -16,11 +16,15 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import dev.orewaee.discordauth.common.config.Config;
 
 import dev.orewaee.discordauth.velocity.discord.listeners.*;
+import dev.orewaee.discordauth.velocity.discord.utils.PermissionUtils;
 
 public class Bot {
     private final Config config;
+
     private final JDABuilder builder;
     private final JDA jda;
+
+    private final PermissionUtils permissionUtils;
 
     private final static String DISCORD_ACTIVITY = "discord.activity";
     private final static String DISCORD_NAME = "discord.name";
@@ -40,6 +44,8 @@ public class Bot {
         this.jda = builder.build();
 
         addCommands();
+
+        this.permissionUtils = new PermissionUtils(config);
     }
 
     private void applySettings() {
@@ -52,11 +58,11 @@ public class Bot {
     private void addEventListeners() {
         builder.addEventListeners(
             new DMListener(config),
-            new AddListener(config),
-            new RemoveByNameListener(config),
-            new RemoveByDiscordIdListener(config),
-            new ListListener(config),
-            new SyncListener(config)
+            new AddListener(config, permissionUtils),
+            new RemoveByNameListener(config, permissionUtils),
+            new RemoveByDiscordIdListener(config, permissionUtils),
+            new ListListener(config, permissionUtils),
+            new SyncListener(config, permissionUtils)
         );
     }
 
