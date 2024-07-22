@@ -39,10 +39,7 @@ public class RemoveByDiscordIdListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        Member member = event.getMember();
-        if (member == null) return;
-
-        if (permissionUtils.hasPermission(member)) {
+        if (!permissionUtils.hasPermission(event)) {
             String content = config
                 .getString(NO_PERMISSION, "You don't have permission to use it");
 

@@ -39,10 +39,7 @@ public class RemoveByNameListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        Member eventMember = event.getMember();
-        if (eventMember == null) return;
-
-        if (permissionUtils.hasPermission(eventMember)) {
+        if (!permissionUtils.hasPermission(event)) {
             String content = config
                 .getString(NO_PERMISSION, "You don't have permission to use it");
 

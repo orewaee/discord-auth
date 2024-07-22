@@ -31,6 +31,7 @@ public class Bot {
 
     public Bot(Config config) throws IOException {
         this.config = config;
+        this.permissionUtils = new PermissionUtils(config);
 
         String token = config.getString("discord.token", "");
         if (token.isEmpty()) throw new IOException("discord token missing");
@@ -44,8 +45,6 @@ public class Bot {
         this.jda = builder.build();
 
         addCommands();
-
-        this.permissionUtils = new PermissionUtils(config);
     }
 
     private void applySettings() {
