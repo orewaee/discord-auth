@@ -3,15 +3,18 @@ package dev.orewaee.discordauth.velocity.discord.listeners;
 import org.jetbrains.annotations.NotNull;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+import net.kyori.adventure.text.Component;
+
 import dev.orewaee.discordauth.api.DiscordAuthAPI;
 import dev.orewaee.discordauth.api.account.Account;
 import dev.orewaee.discordauth.api.account.AccountManager;
+import dev.orewaee.discordauth.api.pool.Pool;
+import dev.orewaee.discordauth.api.pool.PoolManager;
 
 import dev.orewaee.discordauth.common.config.Config;
 
@@ -21,6 +24,7 @@ import dev.orewaee.discordauth.velocity.discord.utils.PermissionUtils;
 public class RemoveByNameListener extends ListenerAdapter {
     private final Config config;
     private final AccountManager accountManager;
+    private final PoolManager poolManager;
     private final PermissionUtils permissionUtils;
 
     private final static String NO_PERMISSION = "discord-components.no-permission";
@@ -35,6 +39,7 @@ public class RemoveByNameListener extends ListenerAdapter {
         DiscordAuthAPI api = DiscordAuth.getInstance();
 
         this.accountManager = api.getAccountManager();
+        this.poolManager = api.getPoolManager();
     }
 
     @Override
@@ -65,6 +70,12 @@ public class RemoveByNameListener extends ListenerAdapter {
         }
 
         accountManager.removeByName(name);
+
+        Pool pool = poolManager.getByAccount(account);
+        if (pool != null) {
+            poolManager.removeByAccount(account);
+            pool.getPlayer().disconnect(Component.text("account removed"));
+        }
 
         String title = config
             .getString(REMOVE_TITLE, ":red_square: Account removed")
