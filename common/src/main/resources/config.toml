@@ -52,6 +52,10 @@ session-restored = "<#78b159>Session restored"
 # Supported placeholders: %name%, %discordid%.
 successful-auth = "<#78b159>Successful auth"
 
+# Kick message when an account is removed.
+# Supported placeholders: %name%, %discordid%.
+account-removed = "<#dd2e44>Your account has been removed"
+
 [discord-components]
 # The user does not have permission to use the slash command.
 no-permission = "You don't have permission to use it"

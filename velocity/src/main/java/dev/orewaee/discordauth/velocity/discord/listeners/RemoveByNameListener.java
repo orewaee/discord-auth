@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import dev.orewaee.discordauth.api.DiscordAuthAPI;
 import dev.orewaee.discordauth.api.account.Account;
@@ -31,6 +32,7 @@ public class RemoveByNameListener extends ListenerAdapter {
     private final static String NO_NAME = "discord-components.no-name";
     private final static String REMOVE_TITLE = "discord-components.remove-title";
     private final static String REMOVE_DESCRIPTION = "discord-components.remove-description";
+    private final static String ACCOUNT_REMOVED = "minecraft-components.account-removed";
 
     public RemoveByNameListener(Config config, PermissionUtils permissionUtils) {
         this.config = config;
@@ -74,7 +76,15 @@ public class RemoveByNameListener extends ListenerAdapter {
         Pool pool = poolManager.getByAccount(account);
         if (pool != null) {
             poolManager.removeByAccount(account);
-            pool.getPlayer().disconnect(Component.text("account removed"));
+
+            String message = config
+                .getString(ACCOUNT_REMOVED, "<#dd2e44>Your account has been removed")
+                .replace("%name%", account.getName())
+                .replace("%discordid%", account.getDiscordId());
+
+            Component component = MiniMessage.miniMessage().deserialize(message);
+
+            pool.getPlayer().disconnect(component);
         }
 
         String title = config
