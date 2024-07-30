@@ -3,15 +3,19 @@ package dev.orewaee.discordauth.velocity.discord.listeners;
 import org.jetbrains.annotations.NotNull;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+
 import dev.orewaee.discordauth.api.DiscordAuthAPI;
 import dev.orewaee.discordauth.api.account.Account;
 import dev.orewaee.discordauth.api.account.AccountManager;
+import dev.orewaee.discordauth.api.pool.Pool;
+import dev.orewaee.discordauth.api.pool.PoolManager;
 
 import dev.orewaee.discordauth.common.config.Config;
 
@@ -21,12 +25,14 @@ import dev.orewaee.discordauth.velocity.discord.utils.PermissionUtils;
 public class RemoveByNameListener extends ListenerAdapter {
     private final Config config;
     private final AccountManager accountManager;
+    private final PoolManager poolManager;
     private final PermissionUtils permissionUtils;
 
     private final static String NO_PERMISSION = "discord-components.no-permission";
     private final static String NO_NAME = "discord-components.no-name";
     private final static String REMOVE_TITLE = "discord-components.remove-title";
     private final static String REMOVE_DESCRIPTION = "discord-components.remove-description";
+    private final static String ACCOUNT_REMOVED = "minecraft-components.account-removed";
 
     public RemoveByNameListener(Config config, PermissionUtils permissionUtils) {
         this.config = config;
@@ -35,6 +41,7 @@ public class RemoveByNameListener extends ListenerAdapter {
         DiscordAuthAPI api = DiscordAuth.getInstance();
 
         this.accountManager = api.getAccountManager();
+        this.poolManager = api.getPoolManager();
     }
 
     @Override
@@ -65,6 +72,20 @@ public class RemoveByNameListener extends ListenerAdapter {
         }
 
         accountManager.removeByName(name);
+
+        Pool pool = poolManager.getByAccount(account);
+        if (pool != null) {
+            poolManager.removeByAccount(account);
+
+            String message = config
+                .getString(ACCOUNT_REMOVED, "<#dd2e44>Your account has been removed")
+                .replace("%name%", account.getName())
+                .replace("%discordid%", account.getDiscordId());
+
+            Component component = MiniMessage.miniMessage().deserialize(message);
+
+            pool.getPlayer().disconnect(component);
+        }
 
         String title = config
             .getString(REMOVE_TITLE, ":red_square: Account removed")
