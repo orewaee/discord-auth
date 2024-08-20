@@ -1,0 +1,15 @@
+changelog:
+  categories:
+    - title: "✨ Features"
+      labels:
+        - feat
+    - title: "🐛 Fixes"
+      labels:
+        - fix
+        - bug
+    - title: "📄 Docs"
+      labels:
+        - docs
+    - title: "Other"
+      labels:
+        - "*"
