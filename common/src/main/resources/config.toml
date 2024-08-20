@@ -23,6 +23,15 @@ token = ""
 # A list of Discord user IDs or roles that will have access to bot commands.
 ids = [""]
 
+# Enter the guild ID in this field if you want only players from that guild to be able to access the server.
+# If this field is left blank or a non-existent/invalid id is specified, no check will be performed.
+guild-member-only = ""
+
+# Specify a role ID in this field if you want only players with this role to be able to access the server.
+# If this field is left blank or a non-existent/invalid id is specified, no check will be performed.
+# Note that if you do not specify the ID of the guild to which the role is bound, the check will also fail.
+with-role-only = ""
+
 # Discord bot activity. Only the following activities will work: custom, competing, listening, playing, watching.
 # If you specify an empty string or anything else, the activity will not be applied.
 activity = "custom"
@@ -35,6 +44,14 @@ no-permission = "<#dd2e44>You don't have permission to use it"
 # Account non-existence.
 # Supported placeholders: %name%.
 no-account = "You don't have an account"
+
+# Message that a player is not a member of a guild.
+# Supported placeholders: %name%, %discordid%.
+guild-member-only = "You are not a member of the guild"
+
+# A message saying that a player has no role.
+# Supported placeholders: %name%, %discordid%.
+with-role-only = "You don't have a role"
 
 # Message about need to auth first.
 # Supported placeholders: %name%.
