@@ -100,4 +100,8 @@ public class Bot {
 
         jda.updateCommands().addCommands(add, remove, list, sync).queue();
     }
+
+    public JDA getJda() {
+        return jda;
+    }
 }
