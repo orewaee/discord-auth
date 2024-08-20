@@ -30,6 +30,7 @@ public class RemoveByDiscordIdListener extends ListenerAdapter {
 
     private final static String NO_PERMISSION = "discord-components.no-permission";
     private final static String NO_DISCORDID = "discord-components.no-discordid";
+    private final static String REMOVE_COLOR = "discord-components.remove-color";
     private final static String REMOVE_TITLE = "discord-components.remove-title";
     private final static String REMOVE_DESCRIPTION = "discord-components.remove-description";
     private final static String ACCOUNT_REMOVED = "minecraft-components.account-removed";
@@ -87,6 +88,8 @@ public class RemoveByDiscordIdListener extends ListenerAdapter {
             pool.getPlayer().disconnect(component);
         }
 
+        int color = (int) config.getLong(REMOVE_COLOR, 0xdd2e44);
+
         String title = config
             .getString(REMOVE_TITLE, ":red_square: Account removed")
             .replace("%name%", account.getName())
@@ -98,7 +101,7 @@ public class RemoveByDiscordIdListener extends ListenerAdapter {
             .replace("%discordid%", discordId);
 
         MessageEmbed embed = new EmbedBuilder()
-            .setColor(0xdd2e44)
+            .setColor(color)
             .setAuthor(account.getName(), null, "https://mc-heads.net/avatar/" + account.getName())
             .setTitle(title)
             .setDescription(description)

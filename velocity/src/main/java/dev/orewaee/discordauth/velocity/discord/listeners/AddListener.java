@@ -3,7 +3,6 @@ package dev.orewaee.discordauth.velocity.discord.listeners;
 import org.jetbrains.annotations.NotNull;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -26,6 +25,7 @@ public class AddListener extends ListenerAdapter {
     private final static String NO_PERMISSION = "discord-components.no-permission";
     private final static String NAME_EXISTS = "discord-components.name-exists";
     private final static String DISCORDID_EXISTS = "discord-components.discordid-exists";
+    private final static String ADD_COLOR = "discord-components.add-color";
     private final static String ADD_TITLE = "discord-components.add-title";
     private final static String ADD_DESCRIPTION = "discord-components.add-description";
 
@@ -79,6 +79,8 @@ public class AddListener extends ListenerAdapter {
         Account newAccount = new Account(name, discordId);
         accountManager.add(newAccount);
 
+        int color = (int) config.getLong(ADD_COLOR, 0x78b159);
+
         String title = config
             .getString(ADD_TITLE, ":green_square: Account added")
             .replace("%name%", name)
@@ -90,7 +92,7 @@ public class AddListener extends ListenerAdapter {
             .replace("%discordid%", discordId);
 
         MessageEmbed embed = new EmbedBuilder()
-            .setColor(0x78b159)
+            .setColor(color)
             .setAuthor(name, null, "https://mc-heads.net/avatar/" + name)
             .setTitle(title)
             .setDescription(description)
