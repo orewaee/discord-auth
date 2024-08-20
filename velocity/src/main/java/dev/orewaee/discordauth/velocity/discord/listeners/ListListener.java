@@ -99,7 +99,7 @@ public class ListListener extends ListenerAdapter {
             .getString(LIST_DESCRIPTION, "At the moment, %quantity% accounts have been found")
             .replace("%quantity%", quantity + "");
 
-        int color = (int) config.getLong(LIST_COLOR, 0x5865f2);
+        int color = Integer.parseInt(config.getString(LIST_COLOR, "5865f2"), 16);
 
         MessageEmbed header = new EmbedBuilder()
             .setColor(color)

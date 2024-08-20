@@ -92,7 +92,7 @@ discordid-exists = "An account with this discordid already exists"
 no-discordid = "There is no account with this discordid"
 
 # Color of the account add embed.
-add-color = 0x78b159
+add-color = "78b159"
 
 # Title and description of the account add embed.
 # Supported placeholders: %name%, %discordid%.
@@ -100,7 +100,7 @@ add-title = ":green_square: Account added"
 add-description = "Account %name% ||%discordid%|| has been successfully added"
 
 # Color of the account list embed.
-remove-color = 0x5865f2
+remove-color = "5865f2"
 
 # Title and description of the account remove embed.
 # Supported placeholders: %name%, %discordid%.
@@ -108,7 +108,7 @@ remove-title = ":red_square: Account removed"
 remove-description = "The account %name% ||%discordid%|| was successfully removed"
 
 # Color of the account list embed.
-list-color = 0x5865f2
+list-color = "5865f2"
 
 # Title and description of the account list embed.
 # Supported placeholders: %quantity%.

@@ -79,7 +79,7 @@ public class AddListener extends ListenerAdapter {
         Account newAccount = new Account(name, discordId);
         accountManager.add(newAccount);
 
-        int color = (int) config.getLong(ADD_COLOR, 0x78b159);
+        int color = Integer.parseInt(config.getString(ADD_COLOR, "78b159"), 16);
 
         String title = config
             .getString(ADD_TITLE, ":green_square: Account added")
