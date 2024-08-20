@@ -7,7 +7,6 @@ import java.util.StringJoiner;
 import org.jetbrains.annotations.NotNull;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -27,6 +26,7 @@ public class ListListener extends ListenerAdapter {
     private final PermissionUtils permissionUtils;
 
     private final static String NO_PERMISSION = "discord-components.no-permission";
+    private final static String LIST_COLOR = "discord-components.list-color";
     private final static String LIST_TITLE = "discord-components.list-title";
     private final static String LIST_NO_ACCOUNTS = "discord-components.list-no-accounts";
     private final static String LIST_DESCRIPTION = "discord-components.list-description";
@@ -99,8 +99,10 @@ public class ListListener extends ListenerAdapter {
             .getString(LIST_DESCRIPTION, "At the moment, %quantity% accounts have been found")
             .replace("%quantity%", quantity + "");
 
+        int color = (int) config.getLong(LIST_COLOR, 0x5865f2);
+
         MessageEmbed header = new EmbedBuilder()
-            .setColor(0x5865f2)
+            .setColor(color)
             .setTitle(title)
             .setDescription(description).build();
 
@@ -108,7 +110,7 @@ public class ListListener extends ListenerAdapter {
 
         for (StringJoiner result : results) {
             MessageEmbed embed = new EmbedBuilder()
-                .setColor(0x5865f2)
+                .setColor(color)
                 .setDescription(result + "")
                 .build();
 
