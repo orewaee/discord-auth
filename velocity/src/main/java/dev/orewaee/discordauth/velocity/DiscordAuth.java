@@ -55,6 +55,8 @@ public class DiscordAuth implements DiscordAuthAPI {
     private final PoolManager poolManager;
     private final SessionManager sessionManager;
 
+    private final Bot bot;
+
     @Inject
     public DiscordAuth(ProxyServer proxy, Logger logger, @DataDirectory Path directory) throws IOException {
         instance = this;
@@ -69,14 +71,14 @@ public class DiscordAuth implements DiscordAuthAPI {
         this.keyManager = new InMemoryKeyManager(config);
         this.poolManager = new InMemoryPoolManager();
         this.sessionManager = new InMemorySessionManager(config);
+
+        this.bot = new Bot(config);
     }
 
     @Subscribe
-    public void onProxyInitialize(ProxyInitializeEvent event) throws IOException {
+    public void onProxyInitialize(ProxyInitializeEvent event) {
         registerEvents(proxy.getEventManager());
         registerCommands(proxy.getCommandManager());
-
-        new Bot(config);
     }
 
     private void registerEvents(EventManager manager) {
@@ -131,6 +133,10 @@ public class DiscordAuth implements DiscordAuthAPI {
 
     public Path getDirectory() {
         return directory;
+    }
+
+    public Bot getBot() {
+        return bot;
     }
 
     public static DiscordAuth getInstance() {
