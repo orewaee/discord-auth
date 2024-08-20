@@ -88,7 +88,7 @@ public class RemoveByDiscordIdListener extends ListenerAdapter {
             pool.getPlayer().disconnect(component);
         }
 
-        int color = (int) config.getLong(REMOVE_COLOR, 0xdd2e44);
+        int color = Integer.parseInt(config.getString(REMOVE_COLOR, "dd2e44"), 16);
 
         String title = config
             .getString(REMOVE_TITLE, ":red_square: Account removed")
