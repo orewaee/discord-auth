@@ -16,11 +16,17 @@ public class Key {
         this.timer = new Timer();
     }
 
+    /**
+     * @return key value
+     */
     @NotNull
     public String getValue() {
         return value;
     }
 
+    /**
+     * @return key timer
+     */
     @NotNull
     public Timer getTimer() {
         return timer;

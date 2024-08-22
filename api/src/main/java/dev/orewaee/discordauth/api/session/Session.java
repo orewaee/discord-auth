@@ -4,6 +4,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Timer;
 
+/**
+ * An entity that stores the ip address of a disconnected player to restore access.
+ */
 public class Session {
     private final String ip;
     private final Timer timer;
@@ -13,11 +16,17 @@ public class Session {
         this.timer = new Timer();
     }
 
+    /**
+     * @return session ip
+     */
     @NotNull
     public String getIp() {
         return ip;
     }
 
+    /**
+     * @return session timer
+     */
     @NotNull
     public Timer getTimer() {
         return timer;

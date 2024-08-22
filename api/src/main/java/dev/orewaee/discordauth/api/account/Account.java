@@ -14,11 +14,17 @@ public class Account {
         this.discordId = discordId;
     }
 
+    /**
+     * @return account name
+     */
     @NotNull
     public String getName() {
         return name;
     }
 
+    /**
+     * @return account discordId
+     */
     @NotNull
     public String getDiscordId() {
         return discordId;
