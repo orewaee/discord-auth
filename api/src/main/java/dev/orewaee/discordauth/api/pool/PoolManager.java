@@ -28,7 +28,6 @@ public interface PoolManager {
      * Gets a pool by account.
      *
      * @param account the account the pool is linked to
-     *
      * @return pool linked to the specified account, or {@code null} if it does not exist
      */
     @Nullable Pool getByAccount(@NotNull Account account);

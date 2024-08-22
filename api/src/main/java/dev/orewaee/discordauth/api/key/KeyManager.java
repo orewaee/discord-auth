@@ -29,7 +29,6 @@ public interface KeyManager {
      * Gets a key by account.
      *
      * @param account the account the key is linked to
-     *
      * @return key linked to the specified account, or {@code null} if it does not exist
      */
     @Nullable Key getByAccount(@NotNull Account account);
@@ -38,7 +37,6 @@ public interface KeyManager {
      * Gets a key by value.
      *
      * @param value key value
-     *
      * @return key with the specified value, or {@code null} if it does not exist
      */
     @Nullable Key getByValue(@NotNull String value);

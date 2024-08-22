@@ -34,7 +34,6 @@ public interface AccountManager {
      * Gets an account by name.
      *
      * @param name name of the account
-     *
      * @return an account with the specified name, or {@code null} if it does not exist
      */
     @Nullable Account getByName(@NotNull String name);
@@ -43,7 +42,6 @@ public interface AccountManager {
      * Gets an account by discordId.
      *
      * @param discordId discordId of the account
-     *
      * @return an account with the specified discordId, or {@code null} if it does not exist
      */
     @Nullable Account getByDiscordId(@NotNull String discordId);
@@ -59,7 +57,6 @@ public interface AccountManager {
      * Checks for the existence of an account by name.
      *
      * @param name name of the account
-     *
      * @return boolean value of existence of an account with the specified name
      */
     boolean containsByName(@NotNull String name);
@@ -68,7 +65,6 @@ public interface AccountManager {
      * Checks for the existence of an account by discordId.
      *
      * @param discordId discordId of the account
-     *
      * @return boolean value of existence of an account with the specified discordId
      */
     boolean containsByDiscordId(@NotNull String discordId);

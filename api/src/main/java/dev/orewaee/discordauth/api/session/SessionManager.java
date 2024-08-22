@@ -29,7 +29,6 @@ public interface SessionManager {
      * Gets session by account
      *
      * @param account the account the session is linked to
-     *
      * @return session linked to the specified account, or {@code null} if it does not exist
      */
     @Nullable Session getByAccount(@NotNull Account account);
