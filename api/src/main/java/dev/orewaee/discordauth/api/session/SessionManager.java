@@ -26,7 +26,7 @@ public interface SessionManager {
     void removeByAccount(@NotNull Account account);
 
     /**
-     * Gets session by account
+     * Returns the session bound to the specified account, or null if it does not exist.
      *
      * @param account the account the session is linked to
      * @return session linked to the specified account, or {@code null} if it does not exist

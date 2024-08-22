@@ -31,7 +31,7 @@ public interface AccountManager {
     void removeByDiscordId(@NotNull String discordId);
 
     /**
-     * Gets an account by name.
+     * Returns the account with the specified name or null if it does not exist.
      *
      * @param name name of the account
      * @return an account with the specified name, or {@code null} if it does not exist
@@ -39,7 +39,7 @@ public interface AccountManager {
     @Nullable Account getByName(@NotNull String name);
 
     /**
-     * Gets an account by discordId.
+     * Returns the account with the specified discordId or null if it does not exist.
      *
      * @param discordId discordId of the account
      * @return an account with the specified discordId, or {@code null} if it does not exist
@@ -47,7 +47,7 @@ public interface AccountManager {
     @Nullable Account getByDiscordId(@NotNull String discordId);
 
     /**
-     * Gets a list of all accounts.
+     * Returns a list of all accounts.
      *
      * @return list of all accounts.
      */

@@ -12,28 +12,28 @@ import dev.orewaee.discordauth.api.session.SessionManager;
  */
 public interface DiscordAuthAPI {
     /**
-     * Gets an account manager.
+     * Returns the account manager.
      *
      * @return account manager
      */
     @NotNull AccountManager getAccountManager();
 
     /**
-     * Gets a key manager.
+     * Returns the key manager.
      *
      * @return key manager
      */
     @NotNull KeyManager getKeyManager();
 
     /**
-     * Gets a pool manager.
+     * Returns the pool manager.
      *
      * @return pool manager
      */
     @NotNull PoolManager getPoolManager();
 
     /**
-     * Gets a session manager.
+     * Returns the session manager.
      *
      * @return session manager
      */

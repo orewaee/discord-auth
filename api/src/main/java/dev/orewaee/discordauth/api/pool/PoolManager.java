@@ -25,7 +25,7 @@ public interface PoolManager {
     void removeByAccount(@NotNull Account account);
 
     /**
-     * Gets a pool by account.
+     * Returns the pool bound to the specified account, or null if it does not exist.
      *
      * @param account the account the pool is linked to
      * @return pool linked to the specified account, or {@code null} if it does not exist

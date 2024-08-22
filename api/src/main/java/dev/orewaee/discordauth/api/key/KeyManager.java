@@ -26,7 +26,7 @@ public interface KeyManager {
     void removeByAccount(@NotNull Account account);
 
     /**
-     * Gets a key by account.
+     * Returns the pool bound to the specified account, or null if it does not exist.
      *
      * @param account the account the key is linked to
      * @return key linked to the specified account, or {@code null} if it does not exist
@@ -34,7 +34,7 @@ public interface KeyManager {
     @Nullable Key getByAccount(@NotNull Account account);
 
     /**
-     * Gets a key by value.
+     * Returns a key with the specified value, or null if it does not exist.
      *
      * @param value key value
      * @return key with the specified value, or {@code null} if it does not exist
